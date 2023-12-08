@@ -1,0 +1,13 @@
+git add //to add(* to select all)
+git commit -m "message"
+git push
+git rm name(to remove)
+git pull(last commit)
+git reset --hard (last commit)
+git mv ./name ./othername
+git status 
+dir file info
+cd change directory
+start . (to open)
+git clone link(to download repository)
+gh auth login
