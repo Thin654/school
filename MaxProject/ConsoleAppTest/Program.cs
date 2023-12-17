@@ -15,8 +15,8 @@ namespace ConsoleAppTest
             customer c = new customer(1, name, email,password);
             customerDB cb = new customerDB();
             //int u = await cb.UpdateAsync(c);
-            await cb.DeleteAsync(c);
-            //await cb.InsertGetObjAsync(c);
+            //await cb.DeleteAsync(c);
+            await cb.InsertGetObjAsync(c);
         }
     }
     
