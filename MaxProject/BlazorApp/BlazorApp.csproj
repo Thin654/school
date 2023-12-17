@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Components\Pages\register.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DBL\DBL.csproj" />
+    <ProjectReference Include="..\Models\Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\Pages\register.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\Pages\register.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Components\Pages\register.razor" />
+  </ItemGroup>
+
+</Project>
