@@ -1,0 +1,90 @@
+﻿@page "/addbook"
+@inject NavigationManager uriHelper
+@using ModelsClass;
+@using DBlibrary;
+@inject IJSRuntime js
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage MySession
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="#">Home</a>
+            <a class="nav-item nav-link active" href="registration">registration <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="customerslist">Students List</a>
+            <a class="nav-item nav-link" href="booklist">Book List</a>
+            <a class="nav-item nav-link" href="addbook">Add book</a>
+            <a class="nav-item nav-link" href="login">Login</a>
+        </div>
+    </div>
+</nav>
+
+<div class="text-center w-50 p-2">
+    <span class="h3 mb-3 font-weight-normal">Registration form</span>
+</div>
+
+<div class="form-signin text-center w-50 m-2">
+    <label for="inputName" class="sr-only">bookid</label>
+    <input @bind-value="idbook" type="text" id="inputName" class="form-control m-1" placeholder="book" required autofocus>
+    <label for="inputPassword" class="sr-only">author</label>
+    <input @bind-value="author" type="text" id="inputAge" class="form-control m-1" placeholder="author" required>
+    <label for="inputName" class="sr-only">pages</label>
+    <input @bind-value="pages" type="text" id="inputSchool" class="form-control m-1" placeholder="pages" required>
+    <label for="inputName" class="sr-only">lagauge</label>
+    <input @bind-value="lang" type="text" id="inputGender" class="form-control m-1" placeholder="lang" required>
+    <button @onclick="registrationBtn" class="btn btn-lg btn-primary btn-block m-1" type="submit">register</button>
+    <div class="mt-5 mb-3 text-muted">@s</div>
+</div>
+
+@code {
+    students student = new students();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var customerSession = await MySession.GetAsync<students>("customerSession");
+        if (customerSession.Success)
+        {
+            student = customerSession.Value;
+            StateHasChanged();
+        }
+        else
+            navigationManager.NavigateTo("login");
+    }
+    private int idbook = 0;
+    private string author = "";
+    private string pages = "";
+    private string lang = "";
+    private string s = "";
+
+    async Task registrationBtn()
+    {
+        BooksDB BookDB = new BooksDB();
+        books book = new books();
+        book.idbook = idbook;
+        book.author = author;
+        book.pages = pages;
+        book.lang = lang;
+        AuthorsDB ad = new AuthorsDB();
+        authors authorD = new authors(author, 0, 0, 0);
+        List<authors> bl = (List<authors>)await ad.SelectAllAsync();
+        bool b = true;
+        foreach(authors item in bl)
+        {
+            if (item.idauthors == author)
+                b = false;
+        }
+        if (b)
+            ad.InsertAsync(authorD);
+        if (author != "" && idbook != 0 && pages != "" && lang != "")
+        {
+            int a = (int)await BookDB.InsertAsync(book);
+            s = book.idbook + $"registered" ;
+            await Task.Delay(2000);
+            uriHelper.NavigateTo("/");
+        }
+        else
+        {
+            s = "Registration failed: form error";
+        }
+    }
+}

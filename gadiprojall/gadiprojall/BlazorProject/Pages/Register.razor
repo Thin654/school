@@ -1,0 +1,67 @@
+﻿@page "/registration"
+@inject NavigationManager uriHelper
+@using ModelsClass;
+@using DBlibrary;
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="#">Home</a>
+            <a class="nav-item nav-link active" href="registration">registration <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="customerslist">Students List</a>
+            <a class="nav-item nav-link" href="booklist">Book List</a>
+            <a class="nav-item nav-link" href="addbook">Add book</a>
+            <a class="nav-item nav-link" href="login">Login</a>
+        </div>
+    </div>
+</nav>
+
+<div class="text-center w-50 p-2">
+    <span class="h3 mb-3 font-weight-normal">Registration form</span>
+</div>
+
+<div class="form-signin text-center w-50 m-2">
+    <label for="inputName" class="sr-only">Name</label>
+    <input @bind-value="idstudents" type="text" id="inputName" class="form-control m-1" placeholder="Name" required autofocus>
+    <label for="inputPassword" class="sr-only">age</label>
+    <input @bind-value="age" type="number" id="inputAge" class="form-control m-1" placeholder="age" required>
+    <label for="inputName" class="sr-only">school</label>
+    <input @bind-value="school" type="text" id="inputSchool" class="form-control m-1" placeholder="school" required>
+    <label for="inputName" class="sr-only">gender</label>
+    <input @bind-value="gender" type="text" id="inputGender" class="form-control m-1" placeholder="gender" required>
+    <button @onclick="registrationBtn" class="btn btn-lg btn-primary btn-block m-1" type="submit">Sign in</button>
+    <div class="mt-5 mb-3 text-muted">@s</div>
+</div>
+
+@code {
+    private string idstudents = "";
+    private int age = 0;
+    private string school = "";
+    private string gender = "";
+    private string s = "";
+
+    async Task registrationBtn()
+    {
+        StudentsDB studentDB = new StudentsDB();
+        students student = new students();
+        student.idstudents = idstudents;
+        student.gender = gender;
+        student.age = age;
+        student.school = school;
+
+        if (idstudents != "" && age != 0 && school != "" && gender != "")
+        {
+                int a = (int)await studentDB.InsertAsync(student);
+                s = $"welcome" + student.idstudents;
+                await Task.Delay(2000);
+                uriHelper.NavigateTo("/");    
+        }
+        else
+        {
+            s = "Registration failed: form error";
+        }
+    }
+}
+    
+    

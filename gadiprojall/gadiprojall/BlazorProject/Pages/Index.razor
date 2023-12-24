@@ -1,0 +1,55 @@
+﻿@page "/StudentList"
+@using DBlibrary;
+@using ModelsClass;
+@inject IJSRuntime js
+
+<span class="h1">My Students</span>
+
+
+@if (list == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table w-50">
+        <thead>
+            <tr>
+                <th>Students Name</th>
+                <th>Customers Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (students item in list)
+            {
+                <tr>
+                    <td><a href="customerDetails/@item.idstudents"> @item.idstudents</a></td>
+                    <td>
+                        <a class="btn btn-success" href="customereEdit/@item.idstudents">Edit</a>
+                        <button class="btn btn-danger" @onclick="@(() => Delete(@item.idstudents))">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<a href="/addCustomer"> Add customer</a>
+
+@code {
+    List<students> list;
+    protected override void OnInitialized()
+    {
+        StudentsDB studentDB = new StudentsDB();
+        list = (List<students>)studentDB.SelectAll();
+    }
+    async Task Delete(string id)
+    {
+        StudentsDB studentDB = new StudentsDB();
+        students student = studentDB.SelectByPk(id);
+        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {student.idstudents}'s Record?"))
+        {
+            studentDB.Delete(student);
+            OnInitialized();
+        }
+    }
+}

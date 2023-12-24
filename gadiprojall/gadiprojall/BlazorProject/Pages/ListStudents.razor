@@ -1,0 +1,82 @@
+﻿@page "/customerslist"
+@using ModelsClass
+@using DBlibrary
+@inject IJSRuntime js
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage MySession
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+<h3>list</h3>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="#">Home</a>
+            <a class="nav-item nav-link active" href="registration">registration </a>
+            <a class="nav-item nav-link" href="customerslist">Students List <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="booklist">Book List</a>
+            <a class="nav-item nav-link" href="addbook">Add book</a>
+            <a class="nav-item nav-link" href="login">Login</a>
+        </div>
+    </div>
+</nav>
+<div class="text-center w-25 p-2">
+    <span class="h3 mb-3 font-weight-normal">Customers list</span>
+</div>
+
+<div class="m-2">
+    @if (l == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class="table w-25">
+            <thead>
+                <tr>
+                    <th>Customers Name</th>
+                    <th>Management</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (students item in l)
+                {
+                    <tr>
+                        <td><a href="customerDetails/@item.idstudents.ToString()"> @item.idstudents</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <a href="/registration" class="btn btn-success">Add new Customer</a>
+</div>
+@code {
+    List<students> l;
+    protected override async Task OnInitializedAsync()
+    {
+        StudentsDB customerDB = new StudentsDB();
+        l = (List<students>)await customerDB.SelectAllAsync();
+
+    }
+    students student = new students();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var customerSession = await MySession.GetAsync<students>("customerSession");
+        if (customerSession.Success)
+        {
+            student = customerSession.Value;
+            StateHasChanged();
+        }
+        else
+            navigationManager.NavigateTo("login");
+    }
+    async Task Delete(string id)
+    {
+        StudentsDB customerDB = new StudentsDB();
+        students customer = await customerDB.SelectByPkAsync(id);
+        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {customer.idstudents}'s Record?"))
+        {
+            await customerDB.DeleteAsync(customer);
+            OnInitializedAsync();
+        }
+    }
+}
+

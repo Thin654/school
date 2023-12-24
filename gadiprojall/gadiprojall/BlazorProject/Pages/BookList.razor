@@ -1,0 +1,146 @@
+﻿@page "/booklist"
+@using ModelsClass
+@using DBlibrary
+@inject IJSRuntime js
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage MySession
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+<h3>list</h3>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="#">Home</a>
+            <a class="nav-item nav-link active" href="registration">registration </a>
+            <a class="nav-item nav-link" href="customerslist">Student List</a>
+            <a class="nav-item nav-link" href="booklist">Book List <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="addbook">Add book</a>
+            <a class="nav-item nav-link" href="login">Login</a>
+        </div>
+    </div>
+</nav>
+<div class="text-center w-25 p-2">
+    <span class="h3 mb-3 font-weight-normal">book list</span>
+</div>
+
+<div class="m-2">
+    @if (l == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class="table w-25">
+            <thead>
+                <tr>
+                    <th>Book List</th>
+                    <th>Management</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                @foreach (books item in l)
+                {
+                    bool b = false;
+                        foreach(borrows i in bl)
+                        {
+                            if (i.idbook == item.idbook)
+                            {
+                                <tr>
+                                    <td> @item.idbook</td>
+                                    <td> @item.author</td>
+                                    <td> @item.pages</td>
+                                    <td> @item.lang</td>
+                                    <td>borrowed by @i.idstudents</td>
+                            </tr>
+                            if(student.idstudents == i.idstudents)
+                            {
+                                <button class="btn btn-danger" @onclick="@(() => UnBorrow(i))">Unborrow</button>
+                            }
+                            b = true;
+                        }
+                    }
+                    if(b)
+                    {
+                       
+                    }
+
+                    else
+                    {
+                            <tr>
+                                <td> @item.idbook</td>
+                                <td> @item.author</td>
+                                <td> @item.pages</td>
+                                <td> @item.lang</td>
+                            </tr>
+                            <button class="btn btn-danger" @onclick="@(() => Borrow(@item.idbook))">borrow</button>
+                    }
+                    
+                    
+                }
+            </tbody>
+        </table>
+    }
+    
+</div>
+@code {
+    int i = 0;
+    public void Count()
+    {
+        i++;
+    }
+    public int ShowCount()
+    {
+        return i;
+    }
+    students student = new students();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var customerSession = await MySession.GetAsync<students>("customerSession");
+        if (customerSession.Success)
+        {
+            student = customerSession.Value;
+            StateHasChanged();
+        }
+        else
+            navigationManager.NavigateTo("login");
+    }
+    List<books> l;
+    List<borrows> bl;
+    protected override async Task OnInitializedAsync()
+    {
+        BooksDB customerDB = new BooksDB();
+        l = (List<books>)await customerDB.SelectAllAsync();
+        BorrowsDB BorrowDB = new BorrowsDB();
+        bl = (List<borrows>)await BorrowDB.SelectAllAsync();
+    }
+    async Task Borrow(int id)
+    {
+        BooksDB bookDB = new BooksDB();
+        books book = await bookDB.SelectByPkAsync(id);
+        var customerSession = await MySession.GetAsync<students>("customerSession");
+        student = customerSession.Value;
+        borrows b = new borrows(student.idstudents, book.idbook);
+        BorrowsDB bdb = new BorrowsDB();
+        bool boo = true;
+        foreach(borrows item in bl)
+        {
+            if (item == b)
+                boo = false;
+        }
+        if (boo)
+        {
+            await bdb.InsertAsync(b);
+        }
+
+        OnInitializedAsync();
+    }
+    async Task UnBorrow(borrows b)
+    {
+        BorrowsDB db = new BorrowsDB();
+        db.Delete(b);
+        OnInitializedAsync();
+    }
+
+    
+}
+

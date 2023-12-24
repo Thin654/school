@@ -1,0 +1,56 @@
+﻿@page "/login"
+@using ModelsClass
+@using DBlibrary;
+@inject IJSRuntime js
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage MySession
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="#">Home</a>
+            <a class="nav-item nav-link active" href="registration">registration </a>
+            <a class="nav-item nav-link" href="customerslist">Students List</a>
+            <a class="nav-item nav-link" href="booklist">Book List</a>
+            <a class="nav-item nav-link" href="addbook">Add book</a>
+            <a class="nav-item nav-link" href="login">Login <span class="sr-only">(current)</span></a>
+        </div>
+    </div>
+</nav>
+
+
+<div class="form-signin text-center w-50 m-2">
+    <label for="inputName" class="sr-only">Name</label>
+    <input @bind-value="idstudents" type="text" id="inputName" class="form-control m-1" placeholder="Name" required autofocus>
+    <label for="inputName" class="sr-only">school</label>
+    <input @bind-value="school" type="text" id="inputSchool" class="form-control m-1" placeholder="school" required>
+    <button @onclick="CheckLogin" class="btn btn-lg btn-primary btn-block m-1" type="submit">Sign in</button>
+    <div class="mt-5 mb-3 text-muted">@s</div>
+</div>
+
+
+@code {
+    private string idstudents = "";
+    private int age = 0;
+    private string school = "";
+    private string gender = "";
+    private string s = "";
+
+    private async Task CheckLogin()
+    {
+        StudentsDB cdb = new StudentsDB();
+        students customer = await cdb.login(idstudents,  school);
+        if (customer != null)
+        {
+            await MySession.SetAsync("customerSession", customer);
+            navigationManager.NavigateTo("booklist");
+        }
+        else
+        {
+            s = "Incorrect username or password";
+        }
+
+    }
+}

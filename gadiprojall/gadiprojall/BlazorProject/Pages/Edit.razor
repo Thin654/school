@@ -1,0 +1,93 @@
+﻿@page "/customerDetails/{id}"
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+@using DBlibrary;
+@using ModelsClass;
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage MySession
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+<div class="form-signin text-center w-50">
+    <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Edit</h1>
+
+
+    <label for="inputName" class="sr-only">Name</label>
+    
+    <h1>@student1.idstudents</h1>
+
+
+    <label for="inputage" class="sr-only">age</label>
+    <h1>@student1.age</h1>
+
+    <label for="inputschool" class="sr-only">school</label>
+    <h1>@student1.school</h1>
+
+    <label for="inputgender" class="sr-only">gender</label>
+    <h1>@student1.gender</h1>
+    @*<div class="mt-5 mb-3 text-muted"><a href="editPassword/@id.ToString()">Edit Password</a></div>*@
+    <label for="inputschool" class="sr-only">books</label>
+</div>
+
+
+
+
+@code {
+    [Parameter] public string id { get; set; }
+    private string Name = "";
+    private int age = 0;
+    private string gender = "";
+    private string school = "";
+    private students student;
+
+    students student1 = new students();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var customerSession = await MySession.GetAsync<students>("customerSession");
+        if (customerSession.Success)
+        {
+            student1 = customerSession.Value;
+            StateHasChanged();
+        }
+        else
+            navigationManager.NavigateTo("login");
+
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (id == null)
+            id = "";
+        else
+        {
+            student = new students();
+            StudentsDB StudentDB = new StudentsDB();
+            student = StudentDB.SelectByPk(id);
+            Name = student.idstudents;
+            age = student.age;
+            gender = student.gender;
+            school = student.school;
+        }
+    }
+
+
+    async Task doEdit()
+    {
+        StudentsDB studentDB = new StudentsDB();
+        student = new students();
+        student.idstudents = Name;
+        student.age = age;
+        student.school = school;
+        student.gender = gender;
+        int n = studentDB.Update(student);
+        if (n > 0)
+        {
+            await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+            uriHelper.NavigateTo("/");
+        }
+        else
+        {
+            await js.InvokeVoidAsync("alert", $"Update failed!");
+            uriHelper.NavigateTo("/");
+        }
+    }
+}

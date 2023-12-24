@@ -1,0 +1,137 @@
+<mxfile host="app.diagrams.net" modified="2023-12-17T09:20:05.643Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" etag="5GyN9JzF54PYdAqszztK" version="22.1.11" type="google">
+  <diagram name="Page-1" id="b9nv78zKkubzRYG6jZ5o">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="WdkqqA8Z08L83o_sLzLv-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="WdkqqA8Z08L83o_sLzLv-14" target="WdkqqA8Z08L83o_sLzLv-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WdkqqA8Z08L83o_sLzLv-14" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;BaseDB&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;protected abstract string GetTableName()&lt;br&gt;protected abstract T GetRowByPK(object pk)&lt;br&gt;&amp;nbsp;protected abstract Task&amp;lt;T&amp;gt; GetRowByPKAsync(object pk)&lt;br&gt;&amp;nbsp;protected abstract T CreateModel(object[] row)&lt;br&gt;protected abstract Task&amp;lt;T&amp;gt; CreateModelAsync(object[] row)&lt;br&gt;protected abstract List&amp;lt;T&amp;gt; CreateListModel(List&amp;lt;object[]&amp;gt; rows)&lt;br&gt;protected abstract Task&amp;lt;List&amp;lt;T&amp;gt;&amp;gt; CreateListModelAsync(List&amp;lt;object[]&amp;gt; rows)&lt;br&gt;&amp;nbsp;public List&amp;lt;T&amp;gt; SelectAll()&lt;br&gt;public List&amp;lt;T&amp;gt; SelectAll(Dictionary&amp;lt;string, string&amp;gt; parameters)&lt;br&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; public List&amp;lt;T&amp;gt; SelectAll(string query)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; public List&amp;lt;T&amp;gt; SelectAll(string query, Dictionary&amp;lt;string, string&amp;gt; parameters)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; protected void AddParameterToCommand(string name, object value)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; protected int ExecNonQuery(string query)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; protected object ExecScalar(string query)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; protected int Insert(Dictionary&amp;lt;string, string&amp;gt; keyAndValue)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; protected object InsertGetObj(Dictionary&amp;lt;string, string&amp;gt; keyAndValue)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; protected int Update(Dictionary&amp;lt;string, string&amp;gt; FildValue, Dictionary&amp;lt;string, string&amp;gt; parameters)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; protected int Delete(Dictionary&amp;lt;string, string&amp;gt; parameters)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; public async Task&amp;lt;List&amp;lt;T&amp;gt;&amp;gt; SelectAllAsync()&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; public async Task&amp;lt;List&amp;lt;T&amp;gt;&amp;gt; SelectAllAsync(Dictionary&amp;lt;string, string&amp;gt; parameters)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; public async Task&amp;lt;List&amp;lt;T&amp;gt;&amp;gt; SelectAllAsync(string query)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; public async Task&amp;lt;List&amp;lt;T&amp;gt;&amp;gt; SelectAllAsync(string query, Dictionary&amp;lt;string, string&amp;gt; parameters)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; protected async Task&amp;lt;int&amp;gt; ExecNonQueryAsync(string query)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; protected async Task&amp;lt;object&amp;gt; ExecScalarAsync(string query)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; protected async Task&amp;lt;int&amp;gt; InsertAsync(Dictionary&amp;lt;string, string&amp;gt; keyAndValue)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; protected async Task&amp;lt;object&amp;gt; InsertGetObjAsync(Dictionary&amp;lt;string, string&amp;gt; keyAndValue)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; protected async Task&amp;lt;int&amp;gt; UpdateAsync(Dictionary&amp;lt;string, string&amp;gt; FildValue, Dictionary&amp;lt;string, string&amp;gt; parameters)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; protected async Task&amp;lt;int&amp;gt; DeleteAsync(Dictionary&amp;lt;string, string&amp;gt; parameters)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; private void PreQuery(string query)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; private void PostQuery()&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; private string PrepareWhereQueryWithParameters(Dictionary&amp;lt;string, string&amp;gt; parameters)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; private string PrepareUpdateQueryWithParameters(Dictionary&amp;lt;string, string&amp;gt; fields)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; private string PrepareInsertQueryWithParameters(Dictionary&amp;lt;string, string&amp;gt; fields)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; private List&amp;lt;object[]&amp;gt; StingListSelectAll(string query, Dictionary&amp;lt;string, string&amp;gt; parameters)&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; private async Task&amp;lt;List&amp;lt;object[]&amp;gt;&amp;gt; StingListSelectAllAsync(string query, Dictionary&amp;lt;string, string&amp;gt; parameters)&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-250" y="330" width="740" height="540" as="geometry" />
+        </mxCell>
+        <mxCell id="WdkqqA8Z08L83o_sLzLv-19" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;DB&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;private const DbTypes dbType&lt;br&gt;&amp;nbsp;private const string MySqlConnSTR&lt;br&gt;&lt;div&gt;&amp;nbsp;protected static DbConnection conn&lt;/div&gt;&lt;div&gt;protected DbCommand cmd&lt;/div&gt;&lt;div&gt;protected DbDataReade reader&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;private enum DbTypes&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&lt;br&gt;protected DB()&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-20" y="-180" width="240" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="WdkqqA8Z08L83o_sLzLv-22" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;companiesjobs&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;Int Compcodeai&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;String Jobdescription&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;Int Payment&lt;/p&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-1170" y="1280" width="290" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="WdkqqA8Z08L83o_sLzLv-26" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comapnies&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;List&amp;lt;companiesjobs&amp;gt; list&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="720" y="1570" width="330" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="XRKkJ5Libcu-d3iw9Ujx-2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;company&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;int Compcode&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;string CompanyName&lt;/p&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="670" y="1390" width="300" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="XRKkJ5Libcu-d3iw9Ujx-3" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;jobs&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;int Compcode&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-1180" y="1490" width="290" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="XRKkJ5Libcu-d3iw9Ujx-4" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.436;entryY=0.986;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="WdkqqA8Z08L83o_sLzLv-26" target="XRKkJ5Libcu-d3iw9Ujx-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="560" y="1550" as="sourcePoint" />
+            <mxPoint x="610" y="1500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XRKkJ5Libcu-d3iw9Ujx-5" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="XRKkJ5Libcu-d3iw9Ujx-3" target="WdkqqA8Z08L83o_sLzLv-22">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-321.7825947391884" y="1649.58" as="sourcePoint" />
+            <mxPoint x="-328.22" y="1550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XRKkJ5Libcu-d3iw9Ujx-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="XRKkJ5Libcu-d3iw9Ujx-3" target="XRKkJ5Libcu-d3iw9Ujx-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2dg6cs5HHX_1JvJMNU0q-1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;customer&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;Int IDcode&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;string Password&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;string Email&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;string CustName&lt;/p&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-210" y="1540" width="310" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="2dg6cs5HHX_1JvJMNU0q-2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;services&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;S&lt;/p&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="230" y="1410" width="320" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="IjrgsmGbUoeUeoKHHyYR-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="2dg6cs5HHX_1JvJMNU0q-3" target="WdkqqA8Z08L83o_sLzLv-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2dg6cs5HHX_1JvJMNU0q-3" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;transactions&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;int IDai&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;int IDcode&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;int ServiceCode&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;int Amount&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;DATETIME DateOfTrans&lt;/p&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="1280" width="320" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="iykcufWnXcAQKCyKnDFi-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="2dg6cs5HHX_1JvJMNU0q-4" target="iykcufWnXcAQKCyKnDFi-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="2dg6cs5HHX_1JvJMNU0q-4" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;volunteering&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;int VolunteeringAI&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;int IDcode&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;int Compcode&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;DATETIME VolunteerDate&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;Int Amount&lt;/p&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-645" y="1340" width="320" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="rSt01oTsBadX6ILqEK9y-2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;customerjobs&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;List&amp;lt;companiesjobs&amp;gt; History&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-380" y="1920" width="305" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="i4rmOV85tLpB21eSPfGs-1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;customerpurchases&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;List&amp;lt;services&amp;gt; History&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="20" y="1930" width="320" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="i4rmOV85tLpB21eSPfGs-4" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.443;exitY=-0.004;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.653;entryY=0.993;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="i4rmOV85tLpB21eSPfGs-1" target="2dg6cs5HHX_1JvJMNU0q-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="1940" as="sourcePoint" />
+            <mxPoint x="440" y="1890" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="i4rmOV85tLpB21eSPfGs-5" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.452;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="rSt01oTsBadX6ILqEK9y-2" target="2dg6cs5HHX_1JvJMNU0q-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-80" y="2050" as="sourcePoint" />
+            <mxPoint x="-30" y="1990" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="i4rmOV85tLpB21eSPfGs-6" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;customerDB&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;Login()&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;Register()&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;AutoLogin()&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;LogOut()&lt;/p&gt;&lt;p align=&quot;center&quot; class=&quot;MsoNormal&quot;&gt;ChangePassword()&lt;/p&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-240" y="1280" width="385" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="i4rmOV85tLpB21eSPfGs-7" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.312;entryY=1.003;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="2dg6cs5HHX_1JvJMNU0q-1" target="i4rmOV85tLpB21eSPfGs-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-60" y="1740" as="sourcePoint" />
+            <mxPoint x="-10" y="1690" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="i4rmOV85tLpB21eSPfGs-9" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;companyDB&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;FindJobsByCompName()&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;AddCompany()&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="590" y="1210" width="290" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="i4rmOV85tLpB21eSPfGs-10" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.457;exitY=-0.032;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="XRKkJ5Libcu-d3iw9Ujx-2" target="i4rmOV85tLpB21eSPfGs-9">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="555" y="1390" as="sourcePoint" />
+            <mxPoint x="605" y="1340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iykcufWnXcAQKCyKnDFi-1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;companiesjobsDB&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;FindJobsByJobDesc()&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;AddJob()&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-1060" y="1060" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="iykcufWnXcAQKCyKnDFi-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="iykcufWnXcAQKCyKnDFi-2" target="WdkqqA8Z08L83o_sLzLv-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iykcufWnXcAQKCyKnDFi-2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;servicesDB&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;FindServiceByCoinP()&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;FindServiceByDesc()&lt;/div&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;&lt;br&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="200" y="1230" width="340" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="iykcufWnXcAQKCyKnDFi-3" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.525;entryY=1.055;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="WdkqqA8Z08L83o_sLzLv-22" target="iykcufWnXcAQKCyKnDFi-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-382.5" y="1490" as="sourcePoint" />
+            <mxPoint x="-277.5" y="1200" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iykcufWnXcAQKCyKnDFi-4" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=0.456;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="2dg6cs5HHX_1JvJMNU0q-2" target="iykcufWnXcAQKCyKnDFi-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="550" y="1780" as="sourcePoint" />
+            <mxPoint x="600" y="1730" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iykcufWnXcAQKCyKnDFi-6" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;volunteeringDB&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align: center; height: 2px;&quot;&gt;ShowCustomerData()&lt;/div&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="-650" y="1190" width="330" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="iykcufWnXcAQKCyKnDFi-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.274;entryY=1.003;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="i4rmOV85tLpB21eSPfGs-6" target="WdkqqA8Z08L83o_sLzLv-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iykcufWnXcAQKCyKnDFi-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.14;entryY=1.011;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="iykcufWnXcAQKCyKnDFi-1" target="WdkqqA8Z08L83o_sLzLv-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iykcufWnXcAQKCyKnDFi-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.951;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="i4rmOV85tLpB21eSPfGs-9" target="WdkqqA8Z08L83o_sLzLv-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iykcufWnXcAQKCyKnDFi-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.21;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="iykcufWnXcAQKCyKnDFi-6" target="WdkqqA8Z08L83o_sLzLv-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
