@@ -1,0 +1,59 @@
+﻿@page "/login"
+<div class="navbar">
+    <div class="navbar-brand">
+        <img src="/images/logo.png" alt="Logo" />
+        <span>My Blazor App</span>
+    </div>
+
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a href="/" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item">
+            <a href="/about" class="nav-link">About</a>
+        </li>
+        <li class="nav-item">
+            <a href="/contact" class="nav-link">Contact</a>
+        </li>
+    </ul>
+</div>
+
+<style>
+    /* Add your custom styles for the navigation bar here */
+    .navbar {
+        background-color: #3498db;
+        color: #ffffff;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar-brand {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-brand img {
+        width: 30px;
+        margin-right: 10px;
+    }
+
+    .navbar-nav {
+        list-style-type: none;
+        display: flex;
+    }
+
+    .nav-item {
+        margin-right: 10px;
+    }
+
+    .nav-link {
+        text-decoration: none;
+        color: #ffffff;
+    }
+</style>
+
+@code {
+
+}
