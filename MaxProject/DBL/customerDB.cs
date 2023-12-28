@@ -87,6 +87,15 @@ namespace DBL
             else
                 return null;
         }
+        public async Task<customer> SelectByEmailPass(string email, string password)
+        {
+            string sql = @$"SELECT customer.idcustomer FROM projectmax.customer WHERE email='{email}' AND password = '{password}';";
+            List<customer> list = (List<customer>)await SelectAllAsync(sql);
+            if (list.Count == 1)
+                return list[0];
+            else
+                return null;
+        }
         public async Task<int> DeleteAsync(customer customer)
         {
             Dictionary<string, string> filterValues = new Dictionary<string, string>
@@ -115,6 +124,18 @@ namespace DBL
             return (customer)await base.InsertGetObjAsync(fillValues);
         }
         
+        public async Task<customer> login(string email, string password)
+        {
+            string sql = @$"SELECT customer.idcustomer FROM projectmax.customer WHERE email='{email}' AND password = '{password}';";
+            object res = await ExecNonQueryAsync(sql);
+            if (res != null)
+            {
+                customer customer = (customer)await SelectByEmailPass(email, password);
+                return customer;
+            }
+            else
+                return null;
+        }
 
     }
 }

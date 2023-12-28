@@ -1,59 +1,39 @@
 ﻿@page "/login"
-<div class="navbar">
-    <div class="navbar-brand">
-        <img src="/images/logo.png" alt="Logo" />
-        <span>My Blazor App</span>
-    </div>
+@using Models
+@using DBL;
+@inject IJSRuntime js
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage MySession
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a href="/" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item">
-            <a href="/about" class="nav-link">About</a>
-        </li>
-        <li class="nav-item">
-            <a href="/contact" class="nav-link">Contact</a>
-        </li>
-    </ul>
+<div class="form-signin text-center w-50 m-2">
+    <label for="inputEmail" class="sr-only">email</label>
+    <input @bind-value="email" type="email" id="inputEmail" class="form-control m-1" placeholder="Email" required autofocus>
+    <label for="inputEmail" class="sr-only">password</label>
+    <input @bind-value="password" type="password" id="inputPassword" class="form-control m-1" placeholder="Password" required>
+    <button @onclick="CheckLogin" class="btn btn-lg btn-primary btn-block m-1" type="submit">Sign in</button>
+    <div class="mt-5 mb-3 text-muted">@s</div>
 </div>
 
-<style>
-    /* Add your custom styles for the navigation bar here */
-    .navbar {
-        background-color: #3498db;
-        color: #ffffff;
-        padding: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .navbar-brand {
-        display: flex;
-        align-items: center;
-    }
-
-    .navbar-brand img {
-        width: 30px;
-        margin-right: 10px;
-    }
-
-    .navbar-nav {
-        list-style-type: none;
-        display: flex;
-    }
-
-    .nav-item {
-        margin-right: 10px;
-    }
-
-    .nav-link {
-        text-decoration: none;
-        color: #ffffff;
-    }
-</style>
 
 @code {
+    private string email = "";
+    private string password = "";
+    private string s = "";
 
+    private async Task CheckLogin()
+    {
+        customerDB cdb = new customerDB();
+        customer customer = await cdb.login(email, password);
+        if (customer != null)
+        {
+            await MySession.SetAsync("customerSession", customer);
+            navigationManager.NavigateTo("");
+        }
+        else
+        {
+            s = "Incorrect username or password";
+        }
+
+    }
 }
