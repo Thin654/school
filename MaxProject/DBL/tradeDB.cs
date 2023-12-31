@@ -101,14 +101,13 @@ namespace DBL
         {
             Dictionary<string, string> fillValues = new Dictionary<string, string>()
             {
-                { "idtrade", t.idtrade.ToString() },
                 { "customerid", t.customerid.ToString() },
                 { "coinid", t.coinid.ToString() },
                 { "transactionid", t.transactionid.ToString() },
                 {"rate", t.rate.ToString() },
                 {"date", t.date.ToString() },
                 {"sl", t.sl.ToString() },
-                {"amount", t.amount.ToString() },
+                {"amount", t.amount.ToString() }
             };
             return (trade)await base.InsertGetObjAsync(fillValues);
         }
