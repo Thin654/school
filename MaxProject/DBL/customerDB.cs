@@ -87,9 +87,9 @@ namespace DBL
             else
                 return null;
         }
-        public async Task<customer> SelectByEmailPass(string email, string password)
+        public async Task<customer> SelectByEmailPassAsync(string email, string password)
         {
-            string sql = @$"SELECT customer.idcustomer FROM projectmax.customer WHERE email='{email}' AND password = '{password}';";
+            string sql = @$"SELECT customer.* FROM projectmax.customer WHERE email = '{email}' AND password = '{password}';";
             List<customer> list = (List<customer>)await SelectAllAsync(sql);
             if (list.Count == 1)
                 return list[0];
@@ -130,7 +130,7 @@ namespace DBL
             object res = await ExecNonQueryAsync(sql);
             if (res != null)
             {
-                customer customer = (customer)await SelectByEmailPass(email, password);
+                customer customer = (customer)await SelectByEmailPassAsync(email, password);
                 return customer;
             }
             else
