@@ -9,7 +9,7 @@ namespace ConsoleAppTest
         public static async Task Main(string[] args)
         {
 
-            string email = "doe@example.com";
+            string email = "do@example.com";
             string name = "John Do";
             string password = "newpassword";
             customer c = new customer(2, name, email, password);
@@ -22,7 +22,7 @@ namespace ConsoleAppTest
             //int coidid = 1;
             //int transactionid = 1;
             //int rate = 233;
-            //DateTime dateTime = new DateTime(2015,11,11);
+            //DateTime dateTime = new DateTime(2015, 11, 11);
             //bool sl = false;
             //int amount = 3;
             //trade t = new trade(213, customerid, coidid, transactionid, rate, dateTime, sl, amount);
