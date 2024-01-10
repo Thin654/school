@@ -24,7 +24,7 @@ namespace DBL
             c.transactionid = int.Parse(row[3].ToString());
             c.rate = int.Parse(row[4].ToString());
             c.date = DateTime.Parse(row[5].ToString());
-            c.sl = bool.Parse(row[6].ToString());
+            c.sl = Convert.ToBoolean(row[6]);
             c.amount = int.Parse(row[7].ToString());
             return c;
         }
@@ -105,8 +105,8 @@ namespace DBL
                 { "coinid", t.coinid.ToString() },
                 { "transactionid", t.transactionid.ToString() },
                 {"rate", t.rate.ToString() },
-                {"date", t.date.ToString() },
-                {"sl", t.sl.ToString() },
+                {"date", t.date.ToString("yyyy-MM-dd HH:mm:ss.fff") },
+                {"sl", Convert.ToInt32(t.sl).ToString() },
                 {"amount", t.amount.ToString() }
             };
             return (trade)await base.InsertGetObjAsync(fillValues);
