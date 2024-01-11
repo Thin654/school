@@ -37,7 +37,7 @@ namespace DBL
             c.transactionid = int.Parse(row[3].ToString());
             c.rate = int.Parse(row[4].ToString());
             c.date = DateTime.Parse(row[5].ToString());
-            c.sl = bool.Parse(row[6].ToString());
+            c.sl = Convert.ToBoolean(row[6]);
             c.amount = int.Parse(row[7].ToString());
             return c;
         }
