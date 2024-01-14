@@ -77,10 +77,10 @@
           <li><a class="nav-link scrollto" href="#about">About</a></li>
                     @{
                        
+          <li><a class="nav-link scrollto" href="#services"></a>@logstatus</li>
                     }         
             
             
-          <li><a class="nav-link scrollto" href="#services">log in</a></li>
           <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
           <li><a class="nav-link scrollto" href="#team">Team</a></li>
           <li class="dropdown"><a href="#"><span>Crypto</span> <i class="bi bi-chevron-down"></i></a>
@@ -145,17 +145,19 @@
 </html>
 
 @code {
+    string logstatus = ""; 
     customer c = new customer();
-    protected async Task<bool> iflogin()
+       
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var customerSession = await MySession.GetAsync<customer>("customerSession");
         if (customerSession.Success)
         {
-            c = customerSession.Value;
-            return true;
+            logstatus = "logout";
             StateHasChanged();
         }
-        return false;
-        
+        else
+            navigationManager.NavigateTo("login");
+    
     }
-  }
+}
