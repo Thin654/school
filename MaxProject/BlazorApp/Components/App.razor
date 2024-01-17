@@ -67,30 +67,27 @@
   <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo me-auto"><a href="index.html">Trade fun</a></h1>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      <h1 class="logo me-auto"><a href="/">Trade fun</a></h1>
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="#about">About</a></li>
-                    @{
-                       
-          <li><a class="nav-link scrollto" href="#services"></a>@logstatus</li>
-                    }         
-            
-            
-          <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+          <li><a class="nav-link scrollto" href="/">Home</a></li>
+          <li><a class="nav-link scrollto" href="about">About</a></li>
+          <li><a class="nav-link scrollto" href="@logstatus">@logstatus</a></li>
+          <li><a class="nav-link scrollto " href="portfolio">Portfolio</a></li>
+          <li><a class="nav-link scrollto" href="team">Team</a></li>
           <li class="dropdown"><a href="#"><span>Crypto</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
+        <ul>
               <li><a href="#">Drop Down 1</a></li>
               @* do bitcoin and crypto drop down *@
             </ul>
           </li>
-          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-          <li><a class="getstarted scrollto" href="#about">Get Started</a></li>
+        @{
+            if(iflogged == false)
+            {
+              <li><a class="getstarted scrollto" href="/register">Register</a></li>
+            }
+        }
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -108,23 +105,6 @@
   <footer id="footer">
     <div class="container">
       <h3>trade fun</h3>
-      <p>Et aut eum quis fuga eos sunt ipsa nihil. Labore corporis magni eligendi fuga maxime saepe commodi placeat.</p>
-      <div class="social-links">
-        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-      </div>
-      <div class="copyright">
-        &copy; Copyright <strong><span>trade fun</span></strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/green-free-one-page-bootstrap-template/ -->
-      </div>
     </div>
   </footer><!-- End Footer -->
 
@@ -145,9 +125,8 @@
 </html>
 
 @code {
-    string logstatus = ""; 
-    customer c = new customer();
-       
+    string logstatus = "login";
+    bool iflogged = false;
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var customerSession = await MySession.GetAsync<customer>("customerSession");
@@ -155,9 +134,9 @@
         {
             logstatus = "logout";
             StateHasChanged();
+            iflogged = true;
         }
-        else
-            navigationManager.NavigateTo("login");
-    
+
     }
+   
 }

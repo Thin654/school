@@ -1,4 +1,10 @@
 ﻿@page "/register"
+@using Models
+@using DBL;
+@inject IJSRuntime js
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage MySession
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 <h3>register</h3>
 
 @code {
