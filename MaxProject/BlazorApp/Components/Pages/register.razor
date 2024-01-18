@@ -6,7 +6,32 @@
 @inject ProtectedSessionStorage MySession
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 <h3>register</h3>
-
+<div class="form-signin text-center w-50 m-2">
+    <label for="inputName" class="sr-only">Name</label>
+    <input @bind-value="name" type="text" id="inputName" class="form-control m-1" placeholder="Name" required autofocus>
+    <label for="inputEmail" class="sr-only">name</label>
+    <input @bind-value="email" type="text" id="inputEmail" class="form-control m-1" placeholder="email" required>
+    <label for="inputPassowrd" class="sr-only">password</label>
+    <input @bind-value="password" type="password" id="inputPassword" class="form-control m-1" placeholder="password" required>
+    <button @onclick="registration" class="btn btn-lg btn-primary btn-block m-1" type="submit">Sign in</button>
+    <div class="mt-5 mb-3 text-muted">@s</div>
+</div>
 @code {
+    string s = "";
+    private string name = "";
+    private string email = "";
+    private string password = "";
+    async Task  registration()
+    {
+        customerDB cd = new customerDB();
+        customer c = new customer(name, email, password);
+        if(name != "" && email != "" && password != "")
+        {
+            customer c1 = await cd.InsertGetObjAsync(c);
+            s = $"welcome" + c.name;
+            await Task.Delay(2000);
+            navigationManager.NavigateTo("/");
+        }
+    }
 
 }

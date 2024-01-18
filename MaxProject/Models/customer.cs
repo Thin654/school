@@ -20,5 +20,12 @@ namespace Models
             this.email = email;
             this.password = password;
         }
+        public customer(string name, string email, string password)
+        {
+            this.name = name;
+            this.email = email;
+            this.password = password;
+            this.id = 0;
+        }
     }
 }

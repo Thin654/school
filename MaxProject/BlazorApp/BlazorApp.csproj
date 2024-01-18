@@ -7,24 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Components\Pages\register.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DBL\DBL.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Components\Pages\register.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Components\Pages\register.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Components\Pages\Register.razor" />
     <None Include="wwwroot\vendor\bootstrap-icons\bootstrap-icons.scss" />
     <None Include="wwwroot\vendor\bootstrap-icons\fonts\bootstrap-icons.woff2" />
     <None Include="wwwroot\vendor\bootstrap\css\bootstrap-grid.css.map" />

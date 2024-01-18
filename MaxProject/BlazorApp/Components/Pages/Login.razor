@@ -6,6 +6,7 @@
 @inject ProtectedSessionStorage MySession
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
+
 <div class="form-signin text-center w-50 m-2">
     <label for="inputEmail" class="sr-only">email</label>
     <input @bind-value="email" type="email" id="inputEmail" class="form-control m-1" placeholder="Email" required autofocus>
@@ -17,10 +18,10 @@
 
 
 @code {
+    public string MyProperty { get; set; } = "";
     private string email = "";
     private string password = "";
     private string s = "";
-
     private async Task CheckLogin()
     {
         customerDB cdb = new customerDB();
@@ -28,12 +29,12 @@
         if (customer != null)
         {
             await MySession.SetAsync("customerSession", customer);
-            navigationManager.NavigateTo("");
+            navigationManager.NavigateTo("/");
+
         }
         else
         {
             s = "Incorrect username or password";
         }
-
     }
 }
