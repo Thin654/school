@@ -29,12 +29,22 @@
         if (customer != null)
         {
             await MySession.SetAsync("customerSession", customer);
-            navigationManager.NavigateTo("/");
-
+            navigationManager.NavigateTo("/", true);
+            
         }
         else
         {
             s = "Incorrect username or password";
         }
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var customerSession = await MySession.GetAsync<customer>("customerSession");
+        if (customerSession.Success)
+        {
+            await MySession.DeleteAsync("customerSession");
+        }
+        StateHasChanged();
+
     }
 }
