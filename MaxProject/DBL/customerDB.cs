@@ -63,16 +63,16 @@ namespace DBL
             else
                 return null;
         }
-        protected override customer GetRowByPK(object pk)
-        {
-            string sql = @"SELECT customer.* FROM customer WHERE (idcustomer = @id)";
-            AddParameterToCommand("@id", int.Parse(pk.ToString()));
-            List<customer> list = (List<customer>)SelectAll(sql);
-            if (list.Count == 1)
-                return list[0];
-            else
-                return null;
-        }
+        //protected override customer GetRowByPK(object pk)
+        //{
+        //    string sql = @"SELECT customer.* FROM customer WHERE (idcustomer = @id)";
+        //    AddParameterToCommand("@id", int.Parse(pk.ToString()));
+        //    List<customer> list = (List<customer>)SelectAll(sql);
+        //    if (list.Count == 1)
+        //        return list[0];
+        //    else
+        //        return null;
+        //}
         public async Task<List<customer>> GetAllAsync()
         {
             return ((List<customer>)await SelectAllAsync());
@@ -98,7 +98,7 @@ namespace DBL
         }
         public async Task<int> DeleteAsync(customer customer)
         {
-            Dictionary<string, string> filterValues = new Dictionary<string, string>
+            Dictionary<string, object> filterValues = new Dictionary<string, object>
             {
                 { "idcustomer", customer.id.ToString() }
             };
@@ -106,8 +106,8 @@ namespace DBL
         }
         public async Task<int> UpdateAsync(customer customer)
         {
-            Dictionary<string, string> fillValues = new Dictionary<string, string>();
-            Dictionary<string, string> filterValues = new Dictionary<string, string>();
+            Dictionary<string, object> fillValues = new Dictionary<string, object>();
+            Dictionary<string, object> filterValues = new Dictionary<string, object>();
             fillValues.Add("name", customer.name);
             fillValues.Add("email", customer.email);
             filterValues.Add("idcustomer", customer.id.ToString());
@@ -115,7 +115,7 @@ namespace DBL
         }
         public async Task<customer> InsertGetObjAsync(customer customer)
         {
-            Dictionary<string, string> fillValues = new Dictionary<string, string>()
+            Dictionary<string, object> fillValues = new Dictionary<string, object>()
             {
                 { "name", customer.name },
                 { "email", customer.email },

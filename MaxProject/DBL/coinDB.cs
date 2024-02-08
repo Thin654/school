@@ -65,16 +65,16 @@ namespace DBL
             else
                 return null;
         }
-        protected override coin GetRowByPK(object pk)
-        {
-            string sql = @"SELECT coin.* FROM coin WHERE (coincode = @id)";
-            AddParameterToCommand("@id", int.Parse(pk.ToString()));
-            List<coin> list = (List<coin>)SelectAll(sql);
-            if (list.Count == 1)
-                return list[0];
-            else
-                return null;
-        }
+        //protected override coin GetRowByPK(object pk)
+        //{
+        //    string sql = @"SELECT coin.* FROM coin WHERE (coincode = @id)";
+        //    AddParameterToCommand("@id", int.Parse(pk.ToString()));
+        //    List<coin> list = (List<coin>)SelectAll(sql);
+        //    if (list.Count == 1)
+        //        return list[0];
+        //    else
+        //        return null;
+        //}
         public async Task<List<coin>> GetAllAsync()
         {
             return ((List<coin>)await SelectAllAsync());
@@ -91,7 +91,7 @@ namespace DBL
         }
         public async Task<int> DeleteAsync(coin coin)
         {
-            Dictionary<string, string> filterValues = new Dictionary<string, string>
+            Dictionary<string, object> filterValues = new Dictionary<string, object>
             {
                 { "coincode", coin.coincode.ToString() }
             };

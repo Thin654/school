@@ -29,12 +29,15 @@ namespace ConsoleAppTest
             //tradeDB td = new tradeDB();
             //await td.InsertGetObjAsync(t);
             coinDB cd = new coinDB();
-            string sql = "SELECT* FROM projectmax.coin;";
+            string sql = "SELECT * FROM projectmax.coin;";
             List<coin> l = (List<coin>)await cd.SelectAllAsync(sql);
-            foreach(coin coin in l)
-            {
-                Console.WriteLine(coin.coincode);
-            }
+            //foreach(coin coin in l)
+            //{
+            //    Console.WriteLine(coin.coincode);
+            //}
+            coinDB cdb = new coinDB();
+            coin c = (coin)await cdb.SelectByPkAsync(1);
+            await Console.Out.WriteLineAsync(c.namecoin);
         }
     }
     

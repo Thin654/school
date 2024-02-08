@@ -19,29 +19,21 @@ else
                     <h1 class="display-5 fw-bolder">@c.namecoin</h1>
                     <div class="fs-5 mb-5">
                         <span class="text-decoration-line-through">c.rate</span>
-                        @* <span>$@c.ProductPrice.ToString("0.00")</span> *@
                     </div>
-                    @* <p class="lead">@p.ProductName</p> *@
-                    @* <div class="d-flex">
-                        <input @bind-value="Quantity" class="form-control text-center me-3" id="inputQuantity" type="num" style="max-width: 3rem" />
-                        <button @onclick="() => addToCart(p)" class="btn btn-outline-dark flex-shrink-0" type="button">
-                            <i class="bi-cart-fill me-1"></i>
-                            Add to cart
-                        </button>
-                    </div> *@
                 </div>
             </div>
         </div>
     </section>
 }
 @code {
-
-    [Parameter] public int id { get; set; }
     private coin c = null;
+    [Parameter] public int Id { get; set; }
+    
     protected override async void OnParametersSet()
     {
         coinDB cdb = new coinDB();
-        c = (coin)await cdb.SelectByPkAsync(id);
+        c = (coin)await cdb.SelectByPkAsync(Id);
+        StateHasChanged();
     }
 
 }

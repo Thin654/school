@@ -73,16 +73,16 @@ namespace DBL
             else
                 return null;
         }
-        protected override trade GetRowByPK(object pk)
-        {
-            string sql = @"SELECT trade.* FROM trade WHERE (idtrade = @id)";
-            AddParameterToCommand("@id", int.Parse(pk.ToString()));
-            List<trade> list = (List<trade>)SelectAll(sql);
-            if (list.Count == 1)
-                return list[0];
-            else
-                return null;
-        }
+        //protected override trade GetRowByPK(object pk)
+        //{
+        //    string sql = @"SELECT trade.* FROM trade WHERE (idtrade = @id)";
+        //    AddParameterToCommand("@id", int.Parse(pk.ToString()));
+        //    List<trade> list = (List<trade>)SelectAll(sql);
+        //    if (list.Count == 1)
+        //        return list[0];
+        //    else
+        //        return null;
+        //}
         public async Task<List<trade>> GetAllAsync()
         {
             return ((List<trade>)await SelectAllAsync());
@@ -99,7 +99,7 @@ namespace DBL
         }
         public async Task<trade> InsertGetObjAsync(trade t)
         {
-            Dictionary<string, string> fillValues = new Dictionary<string, string>()
+            Dictionary<string, object> fillValues = new Dictionary<string, object>()
             {
                 { "customerid", t.customerid.ToString() },
                 { "coinid", t.coinid.ToString() },
