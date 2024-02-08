@@ -326,7 +326,37 @@ namespace DBL
             else
                 return null;
         }
+        protected async Task<object> InsertGetObjAsync(Dictionary<string, object> keyAndValue)
+        {
+            string sqlCommand = PrepareInsertQueryWithParameters(keyAndValue);
+            sqlCommand += $" SELECT LAST_INSERT_ID();";
+            object res = await ExecScalarAsync(sqlCommand);
+            if (res != null)
+            {
+                return GetRowByPK(res);
+            }
+            else
+                return null;
+        }
+        private string PrepareInsertQueryWithParameters(Dictionary<string, object> fields)
+        {
+            if (fields == null || fields.Count == 0)
+                return "";
 
+            string InKey = "(" + string.Join(",", fields.Keys) + ")";
+            string InValue = "VALUES(";
+            for (int i = 0; i < fields.Values.Count; i++)
+            {
+                string pn = "@" + i;
+                InValue += pn + ',';
+                AddParameterToCommand(pn, fields.Values.ElementAt(i));
+            }
+            InValue = InValue.Remove(InValue.Length - 1);//remove last ,
+            InValue += ")";
+
+            string sqlCommand = $"INSERT INTO {GetTableName()}  {InKey} {InValue};";
+            return sqlCommand;
+        }
         /// <summary>
         /// asynchronous version of Update
         /// Update records in a table using SQL UPDATE Statement.

@@ -1,5 +1,46 @@
-﻿@inherits LayoutComponentBase
+﻿@inject IJSRuntime js
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage MySession
+@using Models;
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+@using DBL
+@inherits LayoutComponentBase
+<header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center">
 
+        <h1 class="logo me-auto"><a href="/">Trade fun</a></h1>
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li><a class="nav-link scrollto" href="/">Home</a></li>
+                <li><a class="nav-link scrollto" href="about">About</a></li>
+                <li><a class="nav-link scrollto" href="login">login</a></li>
+                <li><a class="nav-link scrollto " href="portfolio">Portfolio</a></li>
+                <li><a class="nav-link scrollto" href="team">Team</a></li>
+                <li class="dropdown">
+                    <a href="#"><span>Crypto</span> <i class="bi bi-chevron-down"></i></a>
+                    <ul>
+                        @{
+                            OnInitializedAsync();
+                            if (l != null)
+                            {
+                                foreach (coin item in l)
+                                {
+                                    <li><a href="ShowCoin/@(item.coincode)">@(item.namecoin)</a></li>
+                                }
+                            }
+                        }
+                        @* do bitcoin and crypto drop down *@
+                    </ul>
+                </li>
+                <li><a class="getstarted scrollto" href="/register">Register</a></li>
+
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+
+    </div>
+</header>
 @Body
 
 <div id="blazor-error-ui">
@@ -7,3 +48,25 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+@code {
+    List<coin> l = null;
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     var customerSession = await MySession.GetAsync<customer>("customerSession");
+    //     if (customerSession.Success)
+    //     {
+    //         StateHasChanged();
+    //         iflogged = true;
+    //     }
+    //     StateHasChanged();
+
+    // }
+    protected override async Task OnInitializedAsync()
+    {
+
+        coinDB cd = new coinDB();
+        string sql = "SELECT* FROM projectmax.coin;";
+        l = (List<coin>)await cd.SelectAllAsync(sql);
+    }
+    //how to make blazor page app to refresh from another page .net 8
+}

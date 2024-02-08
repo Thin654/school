@@ -19,7 +19,7 @@ namespace DBL
             c.coincode = int.Parse(row[0].ToString());
             c.symbol = row[1].ToString();
             c.namecoin = row[2].ToString();
-            //c.icon = (byte[])(row[3]);
+            c.icon = (byte[])(row[3]);
             c.rate = int.Parse(row[4].ToString());
             return c;
         }
@@ -108,6 +108,17 @@ namespace DBL
         //    };
         //    return (customer)await base.InsertGetObjAsync(fillValues);
         //}
-
+        public async Task<coin> InsertGetObjAsync(coin coin)
+        {
+            Dictionary<string, object> fillValues = new Dictionary<string, object>()
+            {
+                { "coincode", coin.coincode },
+                { "symbol", coin.symbol },
+                { "namecoin", coin.namecoin },
+                { "icon", coin.icon },
+                { "rate", coin.rate.ToString() }
+            };
+            return (coin)await base.InsertGetObjAsync(fillValues);
+        }
     }
 }

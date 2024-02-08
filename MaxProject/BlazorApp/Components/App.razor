@@ -65,7 +65,7 @@
   
 
   <!-- ======= Header ======= -->
-  <header id="header" class="d-flex align-items-center">
+  @* <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center">
 
       <h1 class="logo me-auto"><a href="/">Trade fun</a></h1>
@@ -85,12 +85,12 @@
                     {
                         foreach(coin item in l)
                         {
-                            <li><a href="@(item.symbol)">@(item.namecoin)</a></li>
+                            <li><a href="@(item.coincode)">@(item.namecoin)</a></li>
                         }
                     }
                  }
                             @* do bitcoin and crypto drop down *@
-            </ul>
+          @*   </ul>
           </li>
           <li><a class="getstarted scrollto" href="/register">Register</a></li>
         
@@ -99,8 +99,8 @@
       </nav><!-- .navbar -->
 
     </div>
-  </header><!-- End Header -->
-  <main id="main">
+  </header> *@<!-- End Header -->
+  <main id="main"> 
 
 
         <Routes @rendermode="@InteractiveServer" />
@@ -147,7 +147,7 @@
     {
         
         coinDB cd = new coinDB();
-        string sql = "SELECT* FROM projectmax.coin;";
+        string sql = "SELECT * FROM projectmax.coin;";
         l = (List<coin>)await cd.SelectAllAsync(sql);
     }
     //how to make blazor page app to refresh from another page .net 8 
