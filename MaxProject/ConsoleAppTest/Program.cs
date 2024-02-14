@@ -28,9 +28,9 @@ namespace ConsoleAppTest
             //trade t = new trade(213, customerid, coidid, transactionid, rate, dateTime, sl, amount);
             //tradeDB td = new tradeDB();
             //await td.InsertGetObjAsync(t);
-            coinDB cd = new coinDB();
-            string sql = "SELECT * FROM projectmax.coin;";
-            List<coin> l = (List<coin>)await cd.SelectAllAsync(sql);
+            //coinDB cd = new coinDB();
+            //string sql = "SELECT * FROM projectmax.coin;";
+            //List<coin> l = (List<coin>)await cd.SelectAllAsync(sql);
             //foreach(coin coin in l)
             //{
             //    Console.WriteLine(coin.coincode);
