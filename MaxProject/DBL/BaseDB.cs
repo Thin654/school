@@ -152,23 +152,30 @@ namespace DBL
         private async Task PreQuery(string query)
         {
             cmd.CommandText = query;
-            if (DB.conn.State != System.Data.ConnectionState.Open)
-                await DB.conn.OpenAsync();
+            if (conn.State != System.Data.ConnectionState.Open/* && cmd != null*/)
+                await conn.OpenAsync();
             if (cmd.Connection.State != System.Data.ConnectionState.Open)
-                cmd.Connection = DB.conn;
+                cmd.Connection = conn;
         }
-
+        //private void PreQuery(string query)
+        //{
+        //    cmd.CommandText = query;
+        //    if (DB.conn.State != System.Data.ConnectionState.Open)
+        //        DB.conn.Open();
+        //    if (cmd.Connection.State != System.Data.ConnectionState.Open)
+        //        cmd.Connection = DB.conn;
+        //}
         /// <summary>
         /// Make cleanup after sql command was executed
         /// </summary>
         private async Task PostQuery()
         {
             if (reader != null && !reader.IsClosed)
-                await reader?.CloseAsync();
+                await reader.CloseAsync();
 
             cmd.Parameters.Clear();
-            if (DB.conn.State == System.Data.ConnectionState.Open)
-                await DB.conn.CloseAsync();
+            if (conn.State == System.Data.ConnectionState.Open/* && conn != null*/)
+                await conn.CloseAsync();
         }
 
         /// <summary>

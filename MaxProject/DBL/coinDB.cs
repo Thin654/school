@@ -20,7 +20,7 @@ namespace DBL
             c.symbol = row[1].ToString();
             c.namecoin = row[2].ToString();
             c.icon = (byte[])(row[3]);
-            c.rate = int.Parse(row[4].ToString());
+            c.rate = double.Parse(row[4].ToString());
             return c;
         }
         protected override async Task<coin> CreateModelAsync(object[] row)
@@ -30,7 +30,7 @@ namespace DBL
             c.symbol = row[1].ToString();
             c.namecoin = row[2].ToString();
             //c.icon = (byte[])(row[3]);
-            c.rate = int.Parse(row[4].ToString());
+            c.rate = double.Parse(row[4].ToString());
             return c;
         }
         protected override List<coin> CreateListModel(List<object[]> rows)

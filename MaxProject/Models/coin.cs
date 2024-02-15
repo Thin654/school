@@ -13,9 +13,9 @@ namespace Models
         public string symbol { get; set; }
         public string namecoin { get; set; }
         public byte[] icon { get; set; }
-        public int rate { get; set; }
+        public double rate { get; set; }
         public coin() { }
-        public coin(int coincode, string symbol, string namecoin, byte[] icon, int rate)
+        public coin(int coincode, string symbol, string namecoin, byte[] icon, double rate)
         {
             this.coincode = coincode;
             this.symbol = symbol;

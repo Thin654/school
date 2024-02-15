@@ -13,7 +13,7 @@ namespace DBlibrary
                                     password=josh17rog;
                                     persistsecurityinfo=True;
                                     database=projectmax";
-        protected static MySqlConnection conn;
+        protected MySqlConnection conn;
         protected MySqlCommand cmd;
         protected MySqlDataReader reader;
 

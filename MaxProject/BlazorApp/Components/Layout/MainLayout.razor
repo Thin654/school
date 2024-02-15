@@ -4,6 +4,7 @@
 @using Models;
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 @using DBL
+
 @inherits LayoutComponentBase
 <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center">
@@ -14,7 +15,7 @@
             <ul>
                 <li><a class="nav-link scrollto" href="/">Home</a></li>
                 <li><a class="nav-link scrollto" href="about">About</a></li>
-                <li><a class="nav-link scrollto" href="login">login/logout</a></li>
+                <li><a class="nav-link scrollto" href="/login">login/logout</a></li>
                 <li><a class="nav-link scrollto " href="portfolio">Portfolio</a></li>
                 <li><a class="nav-link scrollto" href="team">Team</a></li>
                 <li class="dropdown">
@@ -26,15 +27,15 @@
                             {
                                 foreach (coin item in l)
                                 {
-                                    <li><a href="ShowCoin/@(item.coincode)">@(item.namecoin)</a></li>
+                                    <li><a href="/ShowCoin/@(item.coincode)">@(item.namecoin)</a></li>
                                 }
                             }
                         }
                         @* do bitcoin and crypto drop down *@
                     </ul>
                 </li>
-                <li><a class="getstarted scrollto" href="/register">Register</a></li>
-
+               
+               <li><a class="getstarted scrollto" href="/register">Register</a></li>
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
@@ -43,11 +44,11 @@
 </header>
 @Body
 
-<div id="blazor-error-ui">
+@* <div id="blazor-error-ui">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
-</div>
+</div> *@
 @code {
     List<coin> l = null;
     // protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -61,6 +62,18 @@
     //     StateHasChanged();
 
     // }
+    protected async Task<bool> iflogged()
+    {
+        var customerSession = await MySession.GetAsync<customer>("customerSession");
+        if (customerSession.Success)
+        {
+            StateHasChanged();
+            return true;
+        }
+        StateHasChanged();
+        return false;
+        
+    }
     protected override async Task OnInitializedAsync()
     {
 
