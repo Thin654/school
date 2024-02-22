@@ -24,6 +24,18 @@ else
             </div>
         </div>
     </section>
+    <script>
+        // Fetch Bitcoin price from CoinGecko API
+        fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
+            .then(response => response.json())
+            .then(data => {
+                const bitcoinPrice = data.bitcoin.usd;
+                document.getElementById('bitcoin-price').textContent = `$${bitcoinPrice.toLocaleString()}`;
+            })
+            .catch(error => {
+                console.error('Error fetching Bitcoin price:', error);
+            });
+    </script>
 }
 @code {
     private coin c = null;

@@ -1,0 +1,33 @@
+﻿@page "/Trade/{Id:int}"
+@inject NavigationManager navigationManager
+@inject IJSRuntime js
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage MySession
+@using Models
+@using DBL
+
+
+
+@code {
+    private coin c = null;
+    customer customer = new customer();
+    [Parameter] public int Id { get; set; }
+
+    protected override async void OnParametersSet()
+    {
+        coinDB cdb = new coinDB();
+        c = await cdb.SelectByPkAsync(Id);
+        StateHasChanged();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var customerSession = await MySession.GetAsync<customer>("customerSession");
+        if (customerSession.Success)
+        {
+            customer = customerSession.Value;
+            StateHasChanged();
+        }
+        else
+            navigationManager.NavigateTo("login");
+    }
+}

@@ -1,0 +1,29 @@
+﻿@page "/api"
+@using Models
+@using DBL
+
+<div class="col-3">
+    <button class="btn btn-primary" @onclick=GetDataFromAPI>Launch API</button>
+</div>
+<div class="col-8 offset-2">@ResultStr</div>
+
+@code {
+    string ResultStr = "...";
+    string uri = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd";
+    // string uri = "https://api.coincap.io/v2/assets/bitcoin";
+    async Task GetDataFromAPI()
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            CoinData cd = await client.GetFromJsonAsync<CoinData>(uri);
+            //.GetStringAsync(uri);
+
+            ResultStr = cd.usd.ToString();
+        }
+        catch (Exception ex)
+        {
+            ResultStr = ex.ToString();
+        }
+    }
+}
