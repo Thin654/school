@@ -120,5 +120,13 @@ namespace DBL
             };
             return (coin)await base.InsertGetObjAsync(fillValues);
         }
+        public async Task<int> UpdateAsync(coin coin)
+        {
+            Dictionary<string, object> fillValues = new Dictionary<string, object>();
+            Dictionary<string, object> filterValues = new Dictionary<string, object>();
+            fillValues.Add("rate", coin.rate);
+            filterValues.Add("coincode", coin.coincode.ToString());
+            return await base.UpdateAsync(fillValues, filterValues);
+        }
     }
 }

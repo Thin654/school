@@ -1,4 +1,7 @@
-﻿@page "/ShowCoin/{Id:int}"
+﻿@using System;
+@using System.Text.RegularExpressions;
+@using System.Threading.Tasks;
+@page "/ShowCoin/{Id:int}"
 @inject NavigationManager navigationManager
 @inject IJSRuntime js
 @using Models
@@ -24,28 +27,51 @@ else
             </div>
         </div>
     </section>
-    <script>
-        // Fetch Bitcoin price from CoinGecko API
-        fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
-            .then(response => response.json())
-            .then(data => {
-                const bitcoinPrice = data.bitcoin.usd;
-                document.getElementById('bitcoin-price').textContent = `$${bitcoinPrice.toLocaleString()}`;
-            })
-            .catch(error => {
-                console.error('Error fetching Bitcoin price:', error);
-            });
-    </script>
+   
 }
 @code {
     private coin c = null;
     [Parameter] public int Id { get; set; }
-    
+    string ResultStr = "...";
+    string str = "";
+    string uri = "";
+    coinDB cdb = new coinDB();
     protected override async void OnParametersSet()
     {
-        coinDB cdb = new coinDB();
         c = await cdb.SelectByPkAsync(Id);
         StateHasChanged();
-    }
+        uri = $"https://api.coingecko.com/api/v3/simple/price?ids={c.namecoin}&vs_currencies=usd";
 
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            HttpClient client = new HttpClient();
+            str = await client.GetStringAsync(uri);
+            //.GetStringAsync(uri);
+            double number = await ExtractNumberAsync(str);
+            c.rate = number;
+            await cdb.UpdateAsync(c);
+        }
+        catch (Exception ex)
+        {
+            ResultStr = ex.ToString();
+        }
+    }
+    static async Task<double> ExtractNumberAsync(string input)
+    {
+        string pattern = @"\d+(\.\d+)?";
+        Match match = await Task.Run(() => Regex.Match(input, pattern));
+
+        if (match.Success)
+        {
+            string numberString = match.Value;
+            return double.Parse(numberString);
+        }
+        else
+        {
+            throw new Exception("No number found in the input string.");
+        }
+    }
 }

@@ -1,4 +1,8 @@
-﻿@page "/api"
+﻿@using System;
+@using System.Text.RegularExpressions;
+@using System.Threading.Tasks;
+
+@page "/api"
 @using Models
 @using DBL
 
@@ -9,21 +13,37 @@
 
 @code {
     string ResultStr = "...";
-    string uri = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd";
+    string str = "";
+    string uri = "https://api.coingecko.com/api/v3/simple/price?ids=ripple&vs_currencies=usd";
     // string uri = "https://api.coincap.io/v2/assets/bitcoin";
     async Task GetDataFromAPI()
     {
         try
         {
             HttpClient client = new HttpClient();
-            CoinData cd = await client.GetFromJsonAsync<CoinData>(uri);
+            str = await client.GetStringAsync(uri);
             //.GetStringAsync(uri);
-
-            ResultStr = cd.usd.ToString();
+            double number = await ExtractNumberAsync(str);
+            ResultStr = number.ToString();
         }
         catch (Exception ex)
         {
             ResultStr = ex.ToString();
+        }
+    }
+    static async Task<double> ExtractNumberAsync(string input)
+    {
+        string pattern = @"\d+(\.\d+)?";
+        Match match = await Task.Run(() => Regex.Match(input, pattern));
+
+        if (match.Success)
+        {
+            string numberString = match.Value;
+            return double.Parse(numberString);
+        }
+        else
+        {
+            throw new Exception("No number found in the input string.");
         }
     }
 }

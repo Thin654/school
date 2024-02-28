@@ -8,7 +8,8 @@ namespace DBL
 {
     public class CoinData
     {
-        public double usd { get; set; }
+
+        public int usd { get; set; }
         
     }
 }
