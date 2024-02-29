@@ -26,7 +26,7 @@
 </html> *@
 
 
-<!DOCTYPE html>
+@* <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -58,9 +58,9 @@
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="BlazorApp.styles.css" />
     <HeadOutlet @rendermode="@InteractiveServer" />
-</head>
+</head> *@
 
-<body>
+@* <body>
 
   
 
@@ -100,7 +100,7 @@
 
     </div>
   </header> *@<!-- End Header -->
-  <main id="main"> 
+  @* <main id="main"> 
 
 
         <Routes @rendermode="@InteractiveServer" />
@@ -108,11 +108,7 @@
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
-  <footer id="footer">
-    <div class="container">
-      <h3>trade fun</h3>
-    </div>
-  </footer><!-- End Footer -->
+  <!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -128,27 +124,51 @@
     <script src="_framework/blazor.web.js"></script>
 </body>
 
+</html>  *@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="BlazorApp.styles.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="app.css" />
+    @* <link rel="stylesheet" href="VikaProject_BlazorApp.styles.css" /> *@
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <HeadOutlet @rendermode="@InteractiveServer" />
+</head>
+
+<body>
+    <Routes @rendermode="@InteractiveServer" />
+    <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="_framework/blazor.web.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+</body>
+
 </html>
-
-@code {
-    List<coin> l = null;
-    // protected override async Task OnAfterRenderAsync(bool firstRender)
-    // {
-    //     var customerSession = await MySession.GetAsync<customer>("customerSession");
-    //     if (customerSession.Success)
-    //     {
-    //         StateHasChanged();
-    //         iflogged = true;
-    //     }
-    //     StateHasChanged();
-
-    // }
-    protected override async Task OnInitializedAsync()
-    {
-        
-        coinDB cd = new coinDB();
-        string sql = "SELECT * FROM projectmax.coin;";
-        l = (List<coin>)await cd.SelectAllAsync(sql);
-    }
-    //how to make blazor page app to refresh from another page .net 8 
-}

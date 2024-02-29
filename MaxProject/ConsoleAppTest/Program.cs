@@ -2,6 +2,7 @@
 using Models;
 using DBL;
 using System.Text.RegularExpressions;
+using System;
 
 namespace ConsoleAppTest
 {
@@ -41,25 +42,28 @@ namespace ConsoleAppTest
             //await Console.Out.WriteLineAsync(c.namecoin);
 
 
-            static async Task<double> ExtractNumberAsync(string input)
-            {
-                string pattern = @"\d+(\.\d+)?";
-                Match match = await Task.Run(() => Regex.Match(input, pattern));
+            //static async Task<double> ExtractNumberAsync(string input)
+            //{
+            //    string pattern = @"\d+(\.\d+)?";
+            //    Match match = await Task.Run(() => Regex.Match(input, pattern));
 
-                if (match.Success)
-                {
-                    string numberString = match.Value;
-                    return double.Parse(numberString);
-                }
-                else
-                {
-                    throw new Exception("No number found in the input string.");
-                }
-            }
-            string str = "{\"bitcoin\":{\"usd\":57211.433}}";
-            await Console.Out.WriteLineAsync(str);
-            double number = await ExtractNumberAsync(str);
-            await Console.Out.WriteLineAsync(number.ToString());
+            //    if (match.Success)
+            //    {
+            //        string numberString = match.Value;
+            //        return double.Parse(numberString);
+            //    }
+            //    else
+            //    {
+            //        throw new Exception("No number found in the input string.");
+            //    }
+            //}
+            //string str = "{\"bitcoin\":{\"usd\":57211.433}}";
+            //await Console.Out.WriteLineAsync(str);
+            //double number = await ExtractNumberAsync(str);
+            //await Console.Out.WriteLineAsync(number.ToString());
+            string u = "bitcoin";
+            string uri = $"https://api.coingecko.com/api/v3/simple/price?ids=" + u + "&vs_currencies=usd";
+            await Console.Out.WriteLineAsync(uri);
 
         }
     }

@@ -7,6 +7,7 @@
 
 @inherits LayoutComponentBase
 <header id="header" class="d-flex align-items-center">
+
     <div class="container d-flex align-items-center">
 
         <h1 class="logo me-auto"><a href="/">Trade fun</a></h1>
@@ -43,7 +44,11 @@
     </div>
 </header>
 @Body
-
+<footer id="footer">
+    <div class="container">
+        <h3>trade fun</h3>
+    </div>
+</footer>
 @* <div id="blazor-error-ui">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>
@@ -62,18 +67,6 @@
     //     StateHasChanged();
 
     // }
-    protected async Task<bool> iflogged()
-    {
-        var customerSession = await MySession.GetAsync<customer>("customerSession");
-        if (customerSession.Success)
-        {
-            StateHasChanged();
-            return true;
-        }
-        StateHasChanged();
-        return false;
-        
-    }
     protected override async Task OnInitializedAsync()
     {
 

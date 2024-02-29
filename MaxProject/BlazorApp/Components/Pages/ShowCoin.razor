@@ -21,30 +21,25 @@ else
                     <div class="small mb-1">@c.symbol</div>
                     <h1 class="display-5 fw-bolder">@c.namecoin</h1>
                     <div class="fs-5 mb-5">
-                        <span class="text">@c.rate</span>
+                        <span class="text">@c.rate</span> <span><button class="btn btn-primary" @onclick="@(async () => await Increment())">Refresh rate</button></span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-   
+
 }
 @code {
     private coin c = null;
     [Parameter] public int Id { get; set; }
     string ResultStr = "...";
-    string str = "";
+    public string str { get; set; }
     string uri = "";
     coinDB cdb = new coinDB();
-    protected override async void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
         c = await cdb.SelectByPkAsync(Id);
-        StateHasChanged();
-        uri = $"https://api.coingecko.com/api/v3/simple/price?ids={c.namecoin}&vs_currencies=usd";
-
-    }
-    protected override async Task OnInitializedAsync()
-    {
+        uri = $"https://api.coingecko.com/api/v3/simple/price?ids=" + c.namecoin + "&vs_currencies=usd";
         try
         {
             HttpClient client = new HttpClient();
@@ -53,11 +48,13 @@ else
             double number = await ExtractNumberAsync(str);
             c.rate = number;
             await cdb.UpdateAsync(c);
+            StateHasChanged();
         }
         catch (Exception ex)
         {
             ResultStr = ex.ToString();
         }
+        //StateHasChanged();
     }
     static async Task<double> ExtractNumberAsync(string input)
     {
@@ -73,5 +70,11 @@ else
         {
             throw new Exception("No number found in the input string.");
         }
+    }
+    async Task Increment()
+    {
+        await Task.Delay(1000);
+        await OnParametersSetAsync();
+        StateHasChanged();
     }
 }
