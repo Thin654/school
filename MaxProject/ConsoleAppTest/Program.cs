@@ -61,9 +61,17 @@ namespace ConsoleAppTest
             //await Console.Out.WriteLineAsync(str);
             //double number = await ExtractNumberAsync(str);
             //await Console.Out.WriteLineAsync(number.ToString());
-            string u = "bitcoin";
-            string uri = $"https://api.coingecko.com/api/v3/simple/price?ids=" + u + "&vs_currencies=usd";
-            await Console.Out.WriteLineAsync(uri);
+            //string u = "bitcoin";
+            //string uri = $"https://api.coingecko.com/api/v3/simple/price?ids=" + u + "&vs_currencies=usd";
+            //await Console.Out.WriteLineAsync(uri);
+
+            transaction t = new transaction();
+            transactionDB td = new transactionDB();
+            t.customerid = 4;
+            t.date = DateTime.Now;
+            await td.InsertGetObjAsync(t);
+            
+
 
         }
     }
