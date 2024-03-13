@@ -1,4 +1,5 @@
 using BlazorApp.Components;
+using Blazored.Modal;
 
 namespace BlazorApp
 {
@@ -11,6 +12,8 @@ namespace BlazorApp
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+
+            builder.Services.AddBlazoredModal();
 
             var app = builder.Build();
 

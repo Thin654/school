@@ -65,13 +65,13 @@ namespace ConsoleAppTest
             //string uri = $"https://api.coingecko.com/api/v3/simple/price?ids=" + u + "&vs_currencies=usd";
             //await Console.Out.WriteLineAsync(uri);
 
-            transaction t = new transaction();
-            transactionDB td = new transactionDB();
-            t.customerid = 4;
-            t.date = DateTime.Now;
-            await td.InsertGetObjAsync(t);
-            
+            //transaction t = new transaction();
+            //transactionDB td = new transactionDB();
+            //t.customerid = 4;
+            //t.date = DateTime.Now;
+            //await td.InsertGetObjAsync(t);
 
+            await EmailService.SendEmailAsync("maxmaxsht@gmail.com", "reciept", "10000");
 
         }
     }

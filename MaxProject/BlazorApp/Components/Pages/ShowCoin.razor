@@ -22,6 +22,7 @@ else
                     <h1 class="display-5 fw-bolder">@c.namecoin</h1>
                     <div class="fs-5 mb-5">
                         <span class="text">@c.rate</span> <span><button class="btn btn-primary" @onclick="@(async () => await Increment())">Refresh rate</button></span>
+                        <a href="/Trade/@(c.coincode)">Buy coin</a>
                     </div>
                 </div>
             </div>

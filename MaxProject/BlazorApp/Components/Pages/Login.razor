@@ -6,12 +6,12 @@
 @inject ProtectedSessionStorage MySession
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
-@{
+@* @{
     if(loggedin)
     {
         logoutasync();
     }
-} 
+}  *@
 <div class="form-signin text-center w-50 m-2">
     <label for="inputEmail" class="sr-only">email</label>
     <input @bind-value="email" type="email" id="inputEmail" class="form-control m-1" placeholder="Email" required autofocus>
@@ -42,14 +42,14 @@
             s = "Incorrect username or password";
         }
     }
-    public async Task logoutasync()
-    {
-        var customerSession = await MySession.GetAsync<customer>("customerSession");
-        if (customerSession.Success)
-        {
-            await MySession.DeleteAsync("customerSession");
-            navigationManager.NavigateTo("/");
-        }
-        StateHasChanged();
-    }
+    // public async Task logoutasync()
+    // {
+    //     var customerSession = await MySession.GetAsync<customer>("customerSession");
+    //     if (customerSession.Success)
+    //     {
+    //         await MySession.DeleteAsync("customerSession");
+    //         navigationManager.NavigateTo("/");
+    //     }
+    //     StateHasChanged();
+    // }
 }

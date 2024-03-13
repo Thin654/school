@@ -5,14 +5,43 @@
 @inject ProtectedSessionStorage MySession
 @using Models
 @using DBL
+@inject IModalService modal
+@using Blazored.Modal;
+
+<label for="inputPrice" class="sr-only">amount</label>
+<input @bind-value="tr.amount" type="text" id="inputPrice" class="form-control m-1" placeholder="Price" required autofocus>
+<Button Color="Color.Primary" class="btn btn-lg btn-primary btn-block m-1" @onclick="@(ShowModal)">buy</Button>
+<h1>@tr.identification</h1>
+<h1>@tr.credit</h1>
 
 
+@* <div class="popup" id="popup-1">
+    <div class="overlay"></div>
+    <div class="content">
+        <div class="close-btn"></div>
+        <input @bind-value="t.identification" type="text" id="inputId" class="form-control m-1" placeholder="Id" required autofocus>
+        <input @bind-value="t.credit" type="text" id="inputId" class="form-control m-1" placeholder="credit" required autofocus>
+        <input type="text" id="inputId" class="form-control m-1" placeholder="ccv" required autofocus>
+        <input type="text" id="inputId" class="form-control m-1" placeholder="date" required autofocus>
+    </div>
+</div> *@
 
 @code {
     private coin c = null;
     customer customer = new customer();
     [Parameter] public int Id { get; set; }
+    transaction tr = new transaction();
 
+    public async Task ShowModal()
+    {
+        var messageForm = modal.Show<InsertTrans>();
+        var result = await messageForm.Result;
+        if (result.Confirmed)
+        {
+            tr = (transaction)result.Data;
+        }
+        StateHasChanged();
+    }
     protected override async void OnParametersSet()
     {
         coinDB cdb = new coinDB();
