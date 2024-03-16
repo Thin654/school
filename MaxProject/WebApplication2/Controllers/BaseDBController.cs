@@ -7,7 +7,6 @@ using System.Transactions;
 
 namespace WebApplication2.Controllers
 {
-    
     public class BaseDBController : Controller
     {
 
@@ -17,7 +16,6 @@ namespace WebApplication2.Controllers
         {
             this._logger = logger;
         }
-
         public IActionResult Index()
         {
             return View();

@@ -13,7 +13,7 @@
 <Button Color="Color.Primary" class="btn btn-lg btn-primary btn-block m-1" @onclick="@(ShowModal)">buy</Button>
 <h1>@tr.identification</h1>
 <h1>@tr.credit</h1>
-
+<h1>@b</h1>
 
 @* <div class="popup" id="popup-1">
     <div class="overlay"></div>
@@ -31,7 +31,7 @@
     customer customer = new customer();
     [Parameter] public int Id { get; set; }
     transaction tr = new transaction();
-
+    bool b;
     public async Task ShowModal()
     {
         var messageForm = modal.Show<InsertTrans>();
@@ -39,6 +39,10 @@
         if (result.Confirmed)
         {
             tr = (transaction)result.Data;
+            tr.customerid = customer.id;
+            tr.date = DateTime.Now;
+            HttpClient client = new HttpClient();
+            b = await Insert();
         }
         StateHasChanged();
     }
@@ -58,5 +62,12 @@
         }
         else
             navigationManager.NavigateTo("login");
+    }
+    public async Task<bool> Insert()
+    {
+        HttpClient client = new HttpClient();
+        var response = await client.PostAsJsonAsync<transaction>("http://localhost:5256/InsertTrans", tr);
+        return response.IsSuccessStatusCode;
+
     }
 }
