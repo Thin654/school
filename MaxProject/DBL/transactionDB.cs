@@ -98,7 +98,7 @@ namespace DBL
             {
                 { "customerid", t.customerid.ToString() },
                 { "credit", t.credit.ToString() },
-                { "identification", t.transactionid.ToString() },
+                { "identification", t.identification.ToString() },
                 {"date", t.date.ToString("yyyy-MM-dd HH:mm:ss.fff") },
                 {"amount", t.amount.ToString() }
             };

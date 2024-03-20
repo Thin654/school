@@ -7,24 +7,16 @@
 @using DBL
 @inject IModalService modal
 @using Blazored.Modal;
+@using System.Text;
+@using System.Text.Json;
+@using ConsoleAppTest
 
 <label for="inputPrice" class="sr-only">amount</label>
 <input @bind-value="tr.amount" type="text" id="inputPrice" class="form-control m-1" placeholder="Price" required autofocus>
-<Button Color="Color.Primary" class="btn btn-lg btn-primary btn-block m-1" @onclick="@(ShowModal)">buy</Button>
-<h1>@tr.identification</h1>
-<h1>@tr.credit</h1>
-<h1>@b</h1>
+<Button Color="Color.Primary" class="btn btn-lg btn-primary btn-block m-1" @onclick="@(Send)">buy</Button>
+<label>@str</label>
+<label for="inputPrice" class ="sr-only"></label>
 
-@* <div class="popup" id="popup-1">
-    <div class="overlay"></div>
-    <div class="content">
-        <div class="close-btn"></div>
-        <input @bind-value="t.identification" type="text" id="inputId" class="form-control m-1" placeholder="Id" required autofocus>
-        <input @bind-value="t.credit" type="text" id="inputId" class="form-control m-1" placeholder="credit" required autofocus>
-        <input type="text" id="inputId" class="form-control m-1" placeholder="ccv" required autofocus>
-        <input type="text" id="inputId" class="form-control m-1" placeholder="date" required autofocus>
-    </div>
-</div> *@
 
 @code {
     private coin c = null;
@@ -32,16 +24,18 @@
     [Parameter] public int Id { get; set; }
     transaction tr = new transaction();
     bool b;
+    string str = "";
     public async Task ShowModal()
     {
         var messageForm = modal.Show<InsertTrans>();
         var result = await messageForm.Result;
-        if (result.Confirmed)
+        if (result.Confirmed && result.Data != null)
         {
-            tr = (transaction)result.Data;
+            transaction temp = (transaction)result.Data;
+            tr.credit = temp.credit;
+            tr.identification = temp.identification;
             tr.customerid = customer.id;
             tr.date = DateTime.Now;
-            HttpClient client = new HttpClient();
             b = await Insert();
         }
         StateHasChanged();
@@ -66,8 +60,34 @@
     public async Task<bool> Insert()
     {
         HttpClient client = new HttpClient();
-        var response = await client.PostAsJsonAsync<transaction>("http://localhost:5256/InsertTrans", tr);
+        var jsonBU = new StringContent(JsonSerializer.Serialize(tr), Encoding.UTF8, "application/json");
+        var response = await client.PostAsync("http://localhost:5256/InsertTrans", jsonBU);
         return response.IsSuccessStatusCode;
+
+    }
+
+    public async Task<bool> SendReceipt()
+    {
+        string ReceiptBody = $@"Hello {tr.identification} this is your receipt plzzzzz accept my receipt
+            price you delivered is {tr.amount} at the date {tr.date}";
+        return await EmailService.SendEmailAsync("maxmaxsht@gmail.com", "receipt", ReceiptBody);
+    }
+
+    public async Task SendSuccess()
+    {
+        if (await SendReceipt())
+        {
+            str = "Receipt sent successfully";
+        }
+        else
+        {
+            str = "nooooooooooooo";
+        }
+    }
+    public async Task Send()
+    {
+        await ShowModal();
+        await SendSuccess();
 
     }
 }

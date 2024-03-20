@@ -21,7 +21,7 @@ namespace WebApplication2.Controllers
             return View();
         }
         [HttpPost("InsertTrans")]
-        [ActionName("PostCustomer")]
+  //      [ActionName("PostTrasaction")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
