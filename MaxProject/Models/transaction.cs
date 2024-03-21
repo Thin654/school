@@ -13,10 +13,10 @@ namespace Models
         public int credit { get; set; }
         public int identification { get; set; }
         public DateTime date { get; set; }
-        public int amount{ get; set; }
+        public double amount{ get; set; }
         public int bankid { get; set; }
         public transaction() { }
-        public transaction(int transactionid, int customerid, int credit, int identification, DateTime datetime, int amount, int bankid)
+        public transaction(int transactionid, int customerid, int credit, int identification, DateTime datetime, double amount, int bankid)
         {
             this.transactionid = transactionid;
             this.customerid = customerid;

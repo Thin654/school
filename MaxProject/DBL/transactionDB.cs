@@ -22,7 +22,7 @@ namespace DBL
             c.credit = int.Parse(row[2].ToString());
             c.identification = int.Parse(row[3].ToString());
             c.date = DateTime.Parse(row[4].ToString());
-            c.amount = int.Parse(row[5].ToString());
+            c.amount = double.Parse(row[5].ToString());
             return c;
         }
         protected override async Task<Models.transaction> CreateModelAsync(object[] row)
@@ -33,7 +33,7 @@ namespace DBL
             c.credit = int.Parse(row[2].ToString());
             c.identification = int.Parse(row[3].ToString());
             c.date = DateTime.Parse(row[4].ToString());
-            c.amount = int.Parse(row[5].ToString());
+            c.amount = double.Parse(row[5].ToString());
             return c;
         }
         protected override List<Models.transaction> CreateListModel(List<object[]> rows)
@@ -91,6 +91,13 @@ namespace DBL
                 return list[0];
             else
                 return null;
+        }
+        public async Task<List<Models.transaction>> SelectByCustomer(int id)
+        {
+            string sql = @"SELECT transaction.* FROM transaction WHERE (customerid = @id)";
+            AddParameterToCommand("@id", id);
+            List<Models.transaction> list = (List<Models.transaction>)await SelectAllAsync(sql);
+            return list;
         }
         public async Task<Models.transaction> InsertGetObjAsync(Models.transaction t)
         {

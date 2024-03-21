@@ -25,7 +25,7 @@ namespace DBL
             c.rate = int.Parse(row[4].ToString());
             c.date = DateTime.Parse(row[5].ToString());
             c.sl = Convert.ToBoolean(row[6]);
-            c.amount = int.Parse(row[7].ToString());
+            c.amount = double.Parse(row[7].ToString());
             return c;
         }
         protected override async Task<trade> CreateModelAsync(object[] row)
@@ -38,7 +38,7 @@ namespace DBL
             c.rate = int.Parse(row[4].ToString());
             c.date = DateTime.Parse(row[5].ToString());
             c.sl = Convert.ToBoolean(row[6]);
-            c.amount = int.Parse(row[7].ToString());
+            c.amount = double.Parse(row[7].ToString());
             return c;
         }
         protected override List<trade> CreateListModel(List<object[]> rows)
@@ -73,6 +73,7 @@ namespace DBL
             else
                 return null;
         }
+
         //protected override trade GetRowByPK(object pk)
         //{
         //    string sql = @"SELECT trade.* FROM trade WHERE (idtrade = @id)";
@@ -97,6 +98,7 @@ namespace DBL
             else
                 return null;
         }
+
         public async Task<trade> InsertGetObjAsync(trade t)
         {
             Dictionary<string, object> fillValues = new Dictionary<string, object>()

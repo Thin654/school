@@ -11,21 +11,37 @@
 @using System.Text.Json;
 @using ConsoleAppTest
 
-<label for="inputPrice" class="sr-only">amount</label>
+<label for="inputPrice" class="sr-only">&nbsp;amount</label>
 <input @bind-value="tr.amount" type="text" id="inputPrice" class="form-control m-1" placeholder="Price" required autofocus>
 <Button Color="Color.Primary" class="btn btn-lg btn-primary btn-block m-1" @onclick="@(Send)">buy</Button>
 <label>@str</label>
 <label for="inputPrice" class ="sr-only"></label>
+<br />
+<br />
+<label>&nbsp;buy coin</label>
+<input @bind-value="Coin" type="text" id="inputPrice" class="form-control m-1" placeholder="Price" required autofocus>
+@{
+        if(c != null && Coin != 0)
+        {
+        <label>&nbsp;@Coin @(c.namecoin) ~ @(Coin * c.rate)$</label>
+        } 
+    }
+<br />
+<label>&nbsp;you have @(amount)$</label>
 
+<Button Color="Color.Primary" class="btn btn-lg btn-primary btn-block m-1" @onclick="@(Send)">buy</Button>
 
 @code {
     private coin c = null;
     customer customer = new customer();
     [Parameter] public int Id { get; set; }
     transaction tr = new transaction();
-    bool b;
+    trade t = new trade();
+    bool b = true;
     string str = "";
-    public async Task ShowModal()
+    double Coin;
+    double amount = 0;
+    public async Task ShowModalTransaction()
     {
         var messageForm = modal.Show<InsertTrans>();
         var result = await messageForm.Result;
@@ -36,7 +52,7 @@
             tr.identification = temp.identification;
             tr.customerid = customer.id;
             tr.date = DateTime.Now;
-            b = await Insert();
+            await Insert();
         }
         StateHasChanged();
     }
@@ -52,6 +68,13 @@
         if (customerSession.Success)
         {
             customer = customerSession.Value;
+            if(b)
+            {
+                b = false;
+                await ShowAmount();
+
+            }
+
             StateHasChanged();
         }
         else
@@ -65,29 +88,37 @@
         return response.IsSuccessStatusCode;
 
     }
-
     public async Task<bool> SendReceipt()
     {
         string ReceiptBody = $@"Hello {tr.identification} this is your receipt plzzzzz accept my receipt
             price you delivered is {tr.amount} at the date {tr.date}";
-        return await EmailService.SendEmailAsync("maxmaxsht@gmail.com", "receipt", ReceiptBody);
-    }
-
-    public async Task SendSuccess()
-    {
-        if (await SendReceipt())
+        if(await EmailService.SendEmailAsync("maxmaxsht@gmail.com", "receipt", ReceiptBody))
         {
             str = "Receipt sent successfully";
+            return true;
         }
-        else
-        {
-            str = "nooooooooooooo";
-        }
+        str = "nooooooooooooo";
+        return false;
     }
     public async Task Send()
     {
-        await ShowModal();
-        await SendSuccess();
-
+        amount = amount + tr.amount;
+        await ShowModalTransaction();
+        await SendReceipt();
+        StateHasChanged();
+    }
+    public async Task ShowAmount()
+    {
+        transactionDB tdb = new transactionDB();
+        List<transaction> l = await tdb.SelectByCustomer(customer.id);
+        for (int i = 0; i < l.Count; i++)
+        {
+            amount = amount + l[i].amount;
+        }
+        StateHasChanged();
+    }
+    public async Task OpenTrade()
+    {
+        
     }
 }

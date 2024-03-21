@@ -3,6 +3,7 @@ using Models;
 using DBL;
 using System.Text.RegularExpressions;
 using System;
+using DBlibrary;
 
 namespace ConsoleAppTest
 {
@@ -71,8 +72,16 @@ namespace ConsoleAppTest
             //t.date = DateTime.Now;
             //await td.InsertGetObjAsync(t);
 
-            await EmailService.SendEmailAsync("maxmaxsht@gmail.com", "reciept", "10000");
+            //await EmailService.SendEmailAsync("maxmaxsht@gmail.com", "reciept", "10000");
 
+            double amount = 0;
+            transactionDB transactionDB = new transactionDB();
+            List<transaction> l = await transactionDB.SelectByCustomer(4);
+            for (int i = 0; i < l.Count; i++)
+            {
+                amount = amount + l[i].amount;
+            }
+            await Console.Out.WriteLineAsync(amount.ToString());
         }
     }
     

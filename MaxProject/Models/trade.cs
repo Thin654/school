@@ -15,9 +15,9 @@ namespace Models
         public int rate { get; set; }
         public DateTime date { get; set; }
         public bool sl { get; set; }
-        public int amount { get; set; }
+        public double amount { get; set; }
         public trade() { }
-        public trade(int idtrade, int customerid, int coinid, int transactionid, int rate, DateTime date, bool sl, int amount)
+        public trade(int idtrade, int customerid, int coinid, int transactionid, int rate, DateTime date, bool sl, double amount)
         {
             this.idtrade = idtrade;
             this.customerid = customerid;
