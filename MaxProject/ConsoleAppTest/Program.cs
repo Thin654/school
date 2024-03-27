@@ -74,14 +74,17 @@ namespace ConsoleAppTest
 
             //await EmailService.SendEmailAsync("maxmaxsht@gmail.com", "reciept", "10000");
 
-            double amount = 0;
-            transactionDB transactionDB = new transactionDB();
-            List<transaction> l = await transactionDB.SelectByCustomer(4);
-            for (int i = 0; i < l.Count; i++)
-            {
-                amount = amount + l[i].amount;
-            }
-            await Console.Out.WriteLineAsync(amount.ToString());
+            //double amount = 0;
+            //transactionDB transactionDB = new transactionDB();
+            //List<transaction> l = await transactionDB.SelectByCustomer(4);
+            //for (int i = 0; i < l.Count; i++)
+            //{
+            //    amount = amount + l[i].amount;
+            //}
+            //await Console.Out.WriteLineAsync(amount.ToString());
+            trade trade = new trade(22,4,1,33,DateTime.Now,true,12);
+            tradeDB td = new tradeDB();
+            await td.InsertGetObjAsync(trade);
         }
     }
     

@@ -29,7 +29,7 @@
 <br />
 <label>&nbsp;you have @(amount)$</label>
 
-<Button Color="Color.Primary" class="btn btn-lg btn-primary btn-block m-1" @onclick="@(Send)">buy</Button>
+<Button Color="Color.Primary" class="btn btn-lg btn-primary btn-block m-1" @onclick="@(OpenTrade)">buy</Button>
 
 @code {
     private coin c = null;
@@ -37,7 +37,7 @@
     [Parameter] public int Id { get; set; }
     transaction tr = new transaction();
     trade t = new trade();
-    bool b = true;
+    static bool b = true;
     string str = "";
     double Coin;
     double amount = 0;
@@ -119,6 +119,14 @@
     }
     public async Task OpenTrade()
     {
-        
+        t.customerid = customer.id;
+        t.coinid = c.coincode;
+        t.rate = c.rate;
+        t.date = DateTime.Now;
+        t.sl = true;
+        t.amount = Coin;
+        HttpClient client = new HttpClient();
+        var jsonBU = new StringContent(JsonSerializer.Serialize(t), Encoding.UTF8, "application/json");
+        var response = await client.PostAsync("http://localhost:5256/InsertTrade", jsonBU);
     }
 }

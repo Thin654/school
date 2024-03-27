@@ -11,18 +11,18 @@ namespace Models
         public int idtrade { get; set; }
         public int customerid { get; set; }
         public int coinid { get; set; }
-        public int transactionid { get; set; }
-        public int rate { get; set; }
+        //public int transactionid { get; set; }
+        public double rate { get; set; }
         public DateTime date { get; set; }
         public bool sl { get; set; }
         public double amount { get; set; }
         public trade() { }
-        public trade(int idtrade, int customerid, int coinid, int transactionid, int rate, DateTime date, bool sl, double amount)
+        public trade(int idtrade, int customerid, int coinid, /*int transactionid,*/ int rate, DateTime date, bool sl, double amount)
         {
             this.idtrade = idtrade;
             this.customerid = customerid;
             this.coinid = coinid;
-            this.transactionid = transactionid;
+            //this.transactionid = transactionid;
             this.rate = rate;
             this.date = date;
             this.sl = sl;

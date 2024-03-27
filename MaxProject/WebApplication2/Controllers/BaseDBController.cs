@@ -34,7 +34,7 @@ namespace WebApplication2.Controllers
             return Ok(c);
         }
 
-        [HttpGet("InsertTrade")]
+        [HttpPost("InsertTrade")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

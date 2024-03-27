@@ -21,11 +21,11 @@ namespace DBL
             c.idtrade = int.Parse(row[0].ToString());
             c.customerid = int.Parse(row[1].ToString());
             c.coinid = int.Parse(row[2].ToString());
-            c.transactionid = int.Parse(row[3].ToString());
-            c.rate = int.Parse(row[4].ToString());
-            c.date = DateTime.Parse(row[5].ToString());
-            c.sl = Convert.ToBoolean(row[6]);
-            c.amount = double.Parse(row[7].ToString());
+            //c.transactionid = int.Parse(row[3].ToString());
+            c.rate = double.Parse(row[3].ToString());
+            c.date = DateTime.Parse(row[4].ToString());
+            c.sl = Convert.ToBoolean(row[5]);
+            c.amount = double.Parse(row[6].ToString());
             return c;
         }
         protected override async Task<trade> CreateModelAsync(object[] row)
@@ -34,11 +34,11 @@ namespace DBL
             c.idtrade = int.Parse(row[0].ToString());
             c.customerid = int.Parse(row[1].ToString());
             c.coinid = int.Parse(row[2].ToString());
-            c.transactionid = int.Parse(row[3].ToString());
-            c.rate = int.Parse(row[4].ToString());
-            c.date = DateTime.Parse(row[5].ToString());
-            c.sl = Convert.ToBoolean(row[6]);
-            c.amount = double.Parse(row[7].ToString());
+            //c.transactionid = int.Parse(row[3].ToString());
+            c.rate = double.Parse(row[3].ToString());
+            c.date = DateTime.Parse(row[4].ToString());
+            c.sl = Convert.ToBoolean(row[5]);
+            c.amount = double.Parse(row[6].ToString());
             return c;
         }
         protected override List<trade> CreateListModel(List<object[]> rows)
@@ -105,7 +105,7 @@ namespace DBL
             {
                 { "customerid", t.customerid.ToString() },
                 { "coinid", t.coinid.ToString() },
-                { "transactionid", t.transactionid.ToString() },
+                //{ "transactionid", t.transactionid.ToString() },
                 {"rate", t.rate.ToString() },
                 {"date", t.date.ToString("yyyy-MM-dd HH:mm:ss.fff") },
                 {"sl", Convert.ToInt32(t.sl).ToString() },
