@@ -1,0 +1,60 @@
+﻿@page "/wallet"
+@inject NavigationManager navigationManager
+@inject IJSRuntime js
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage MySession
+@using Models
+@using DBL
+@inject IModalService modal
+@using Blazored.Modal;
+@using System.Text;
+@using System.Text.Json;
+@using ConsoleAppTest
+
+
+
+@code {
+    Dictionary<string, double> parameters;
+    static bool b = true;
+    double amount_USD = 0;
+    customer customer = new customer();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var customerSession = await MySession.GetAsync<customer>("customerSession");
+        if (customerSession.Success)
+        {
+            customer = customerSession.Value;
+            if (b)
+            {
+                b = false;
+                await ShowAmount();
+
+            }
+
+            StateHasChanged();
+        }
+        else
+            navigationManager.NavigateTo("login");
+    }
+    public async Task ShowAmount()
+    {
+        transactionDB tdb = new transactionDB();
+        List<transaction> l = await tdb.SelectByCustomer(customer.id);
+        for (int i = 0; i < l.Count; i++)
+        {
+            amount_USD = amount_USD + l[i].amount;
+        }
+        StateHasChanged();
+    }
+    public async Task ShowCoins()
+    {
+        coinDB cd = new coinDB();
+        List<coin> list_coins = await cd.SelectAllAsync("SELECT * FROM projectmax.coin;");
+
+    }
+    public async Task GetSumOfCoin(int coincode)
+    {
+        tradeDB td = new tradeDB();
+        
+    }
+}
