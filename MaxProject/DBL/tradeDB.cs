@@ -75,11 +75,13 @@ namespace DBL
         }
         public async Task<List<trade>> GetListByCoinAndCustomer(object pk, object coincode)
         {
-            string sql = @"(SELECT * FROM projectmax.trade Where customerid = @customerid and coinid = @coincode;);";
+            string sql = @"(SELECT * FROM projectmax.trade Where customerid = @customerid and coinid = @coincode);";
             AddParameterToCommand("@customerid", int.Parse(pk.ToString()));
             AddParameterToCommand("@coincode", int.Parse(coincode.ToString()));
             List<trade> list = (List<trade>)await SelectAllAsync(sql);
-            return list;
+            if(list != null && list.Count > 0)
+                return list;
+            return null;
         }
         //protected override trade GetRowByPK(object pk)
         //{

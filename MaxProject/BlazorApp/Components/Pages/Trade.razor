@@ -6,6 +6,7 @@
 @using Models
 @using DBL
 @inject IModalService modal
+@inject bool b
 @using Blazored.Modal;
 @using System.Text;
 @using System.Text.Json;
@@ -37,7 +38,7 @@
     [Parameter] public int Id { get; set; }
     transaction tr = new transaction();
     trade t = new trade();
-    static bool b = true;
+    //static bool b = true;
     string str = "";
     double Coin;
     double amount = 0;
@@ -109,6 +110,7 @@
     }
     public async Task ShowAmount()
     {
+        amount = 0;
         transactionDB tdb = new transactionDB();
         List<transaction> l = await tdb.SelectByCustomer(customer.id);
         for (int i = 0; i < l.Count; i++)
@@ -116,6 +118,7 @@
             amount = amount + l[i].amount;
         }
         StateHasChanged();
+        b = true;
     }
     public async Task OpenTrade()
     {

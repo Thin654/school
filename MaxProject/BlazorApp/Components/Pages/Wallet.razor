@@ -6,6 +6,7 @@
 @using Models
 @using DBL
 @inject IModalService modal
+@inject bool b
 @using Blazored.Modal;
 @using System.Text;
 @using System.Text.Json;
@@ -23,9 +24,9 @@
 </ul>
 
 @code {
-    Dictionary<string, double> parameters;
-    static bool b = true;
-    double amount_USD = 0;
+    static Dictionary<string, double> parameters = new Dictionary<string, double>();
+    //static bool b = true;
+    static double amount_USD = 0;
     customer customer = new customer();
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -47,6 +48,7 @@
     }
     public async Task ShowAmount()
     {
+        amount_USD = 0;
         transactionDB tdb = new transactionDB();
         List<transaction> l = await tdb.SelectByCustomer(customer.id);
         for (int i = 0; i < l.Count; i++)
@@ -54,6 +56,7 @@
             amount_USD = amount_USD + l[i].amount;
         }
         StateHasChanged();
+        b = true;
     }
     public async Task<List<coin>> ShowCoins()
     {
@@ -68,8 +71,11 @@
         for (int i = 0; i < list_coins.Count; i++)
         {
             List<trade> list_trades = await td.GetListByCoinAndCustomer(customer.id, list_coins[i].coincode);
-            parameters.Add(list_coins[i].namecoin, await GetSumAmount(list_trades));
+            if(list_trades != null)
+                parameters.Add(list_coins[i].namecoin, await GetSumAmount(list_trades));
         }
+        StateHasChanged();
+        b = true;
     }
     public async Task<double> GetSumAmount(List<trade> t)
     {
