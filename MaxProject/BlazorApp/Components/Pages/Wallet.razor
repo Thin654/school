@@ -11,7 +11,16 @@
 @using System.Text.Json;
 @using ConsoleAppTest
 
-
+<h1>@amount_USD</h1>
+ <ul>
+    @{
+        if(parameters != null)
+            foreach(var coin in parameters)
+            {
+                <li>@coin.Key @coin.Value</li>
+            }
+    }
+</ul>
 
 @code {
     Dictionary<string, double> parameters;
@@ -28,7 +37,7 @@
             {
                 b = false;
                 await ShowAmount();
-
+                await GetSumOfCoin();
             }
 
             StateHasChanged();
@@ -46,15 +55,29 @@
         }
         StateHasChanged();
     }
-    public async Task ShowCoins()
+    public async Task<List<coin>> ShowCoins()
     {
         coinDB cd = new coinDB();
         List<coin> list_coins = await cd.SelectAllAsync("SELECT * FROM projectmax.coin;");
-
+        return list_coins;
     }
-    public async Task GetSumOfCoin(int coincode)
+    public async Task GetSumOfCoin()
     {
         tradeDB td = new tradeDB();
-        
+        List<coin> list_coins = await ShowCoins();
+        for (int i = 0; i < list_coins.Count; i++)
+        {
+            List<trade> list_trades = await td.GetListByCoinAndCustomer(customer.id, list_coins[i].coincode);
+            parameters.Add(list_coins[i].namecoin, await GetSumAmount(list_trades));
+        }
+    }
+    public async Task<double> GetSumAmount(List<trade> t)
+    {
+        double amount = 0;
+        for (int i = 0; i < t.Count; i++)
+        {
+            amount = amount + t[i].amount;
+        }
+        return amount;
     }
 }
