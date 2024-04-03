@@ -6,7 +6,7 @@
 @using Models
 @using DBL
 @inject IModalService modal
-@inject bool b
+@* @inject bool b *@
 @using Blazored.Modal;
 @using System.Text;
 @using System.Text.Json;
@@ -27,6 +27,7 @@
     static Dictionary<string, double> parameters = new Dictionary<string, double>();
     //static bool b = true;
     static double amount_USD = 0;
+    static bool b = true;
     customer customer = new customer();
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -34,17 +35,15 @@
         if (customerSession.Success)
         {
             customer = customerSession.Value;
-            if (b)
-            {
-                b = false;
-                await ShowAmount();
-                await GetSumOfCoin();
-            }
-
             StateHasChanged();
         }
         else
             navigationManager.NavigateTo("login");
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await ShowAmount();
+        await GetSumOfCoin();
     }
     public async Task ShowAmount()
     {
@@ -56,7 +55,6 @@
             amount_USD = amount_USD + l[i].amount;
         }
         StateHasChanged();
-        b = true;
     }
     public async Task<List<coin>> ShowCoins()
     {
@@ -75,7 +73,6 @@
                 parameters.Add(list_coins[i].namecoin, await GetSumAmount(list_trades));
         }
         StateHasChanged();
-        b = true;
     }
     public async Task<double> GetSumAmount(List<trade> t)
     {
