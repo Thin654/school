@@ -27,7 +27,7 @@
     static Dictionary<string, double> parameters = new Dictionary<string, double>();
     //static bool b = true;
     static double amount_USD = 0;
-    static bool b = true;
+    bool b = true;
     customer customer = new customer();
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -35,15 +35,16 @@
         if (customerSession.Success)
         {
             customer = customerSession.Value;
+            if(b)
+            {
+                b = false;
+                await ShowAmount();
+                await GetSumOfCoin();
+            }
             StateHasChanged();
         }
         else
             navigationManager.NavigateTo("login");
-    }
-    protected override async Task OnInitializedAsync()
-    {
-        await ShowAmount();
-        await GetSumOfCoin();
     }
     public async Task ShowAmount()
     {
@@ -64,23 +65,15 @@
     }
     public async Task GetSumOfCoin()
     {
+        DoubleDB d = new DoubleDB();
         tradeDB td = new tradeDB();
         List<coin> list_coins = await ShowCoins();
         for (int i = 0; i < list_coins.Count; i++)
         {
-            List<trade> list_trades = await td.GetListByCoinAndCustomer(customer.id, list_coins[i].coincode);
+            List<double> list_trades = await d.GetSUMByCoinAndCustomer(customer.id, list_coins[i].coincode);
             if(list_trades != null)
-                parameters.Add(list_coins[i].namecoin, await GetSumAmount(list_trades));
+                parameters.Add(list_coins[i].namecoin, list_trades[0]);
         }
-        StateHasChanged();
-    }
-    public async Task<double> GetSumAmount(List<trade> t)
-    {
-        double amount = 0;
-        for (int i = 0; i < t.Count; i++)
-        {
-            amount = amount + t[i].amount;
-        }
-        return amount;
+        //StateHasChanged();
     }
 }

@@ -28,6 +28,7 @@ namespace DBL
             c.amount = double.Parse(row[6].ToString());
             return c;
         }
+        
         protected override async Task<trade> CreateModelAsync(object[] row)
         {
             trade c = new trade();
@@ -72,16 +73,6 @@ namespace DBL
                 return list[0];
             else
                 return null;
-        }
-        public async Task<List<trade>> GetListByCoinAndCustomer(object pk, object coincode)
-        {
-            string sql = @"(SELECT * FROM projectmax.trade Where customerid = @customerid and coinid = @coincode);";
-            AddParameterToCommand("@customerid", int.Parse(pk.ToString()));
-            AddParameterToCommand("@coincode", int.Parse(coincode.ToString()));
-            List<trade> list = (List<trade>)await SelectAllAsync(sql);
-            if(list != null && list.Count > 0)
-                return list;
-            return null;
         }
         //protected override trade GetRowByPK(object pk)
         //{

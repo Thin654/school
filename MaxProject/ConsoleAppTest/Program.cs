@@ -82,9 +82,9 @@ namespace ConsoleAppTest
             //    amount = amount + l[i].amount;
             //}
             //await Console.Out.WriteLineAsync(amount.ToString());
-            trade trade = new trade(22,4,1,33,DateTime.Now,true,12);
-            tradeDB td = new tradeDB();
-            await td.InsertGetObjAsync(trade);
+            DoubleDB d = new DoubleDB();
+            List<double> ld = await d.GetSUMByCoinAndCustomer(4, 1);
+            await Console.Out.WriteLineAsync(ld[0].ToString());
         }
     }
     
