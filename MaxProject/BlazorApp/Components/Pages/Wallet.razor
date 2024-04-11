@@ -25,32 +25,37 @@
 
 @code {
     static Dictionary<string, double> parameters = new Dictionary<string, double>();
-    //static bool b = true;
     static double amount_USD = 0;
-    bool b = true;
+    static bool b = true;
     customer customer = new customer();
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var customerSession = await MySession.GetAsync<customer>("customerSession");
-        if (customerSession.Success)
+        if (customerSession.Success && customerSession.Value != null)
         {
             customer = customerSession.Value;
             if(b)
             {
                 b = false;
                 await ShowAmount();
-                await GetSumOfCoin();
+                await GetSumOfCoin(); 
             }
             StateHasChanged();
         }
         else
             navigationManager.NavigateTo("login");
     }
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     //await ShowAmount();
+    //     await GetSumOfCoin();
+    // }
     public async Task ShowAmount()
     {
         amount_USD = 0;
-        transactionDB tdb = new transactionDB();
-        List<transaction> l = await tdb.SelectByCustomer(customer.id);
+        HttpClient client = new HttpClient();
+        //var jsonBU = new StringContent(JsonSerializer.Serialize(l), Encoding.UTF8, "application/json");
+        List<transaction> l = await client.GetFromJsonAsync<List<transaction>>($"http://localhost:5256/GetAll/{customer.id}");
         for (int i = 0; i < l.Count; i++)
         {
             amount_USD = amount_USD + l[i].amount;
@@ -66,14 +71,16 @@
     public async Task GetSumOfCoin()
     {
         DoubleDB d = new DoubleDB();
-        tradeDB td = new tradeDB();
+        //tradeDB td = new tradeDB();
         List<coin> list_coins = await ShowCoins();
+        parameters = new Dictionary<string, double>();
         for (int i = 0; i < list_coins.Count; i++)
         {
-            List<double> list_trades = await d.GetSUMByCoinAndCustomer(customer.id, list_coins[i].coincode);
+            HttpClient client = new HttpClient();
+            //var jsonBU = new StringContent(JsonSerializer.Serialize(l), Encoding.UTF8, "application/json");
+            List<double> list_trades = await client.GetFromJsonAsync<List<double>>($"http://localhost:5256/GetSum/{customer.id}/{list_coins[i].coincode}");
             if(list_trades != null)
                 parameters.Add(list_coins[i].namecoin, list_trades[0]);
         }
-        //StateHasChanged();
     }
 }

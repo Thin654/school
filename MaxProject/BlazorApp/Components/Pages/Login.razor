@@ -42,6 +42,17 @@
             s = "Incorrect username or password";
         }
     }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var customerSession = await MySession.GetAsync<customer>("customerSession");
+        if (customerSession.Success)
+        {
+            await MySession.SetAsync("customerSession", null);
+            navigationManager.NavigateTo("login");
+        }
+        else
+            navigationManager.NavigateTo("login");
+    }
     // public async Task logoutasync()
     // {
     //     var customerSession = await MySession.GetAsync<customer>("customerSession");

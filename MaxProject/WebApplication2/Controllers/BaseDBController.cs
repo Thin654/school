@@ -4,6 +4,7 @@ using Models;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using System.Transactions;
+using DBlibrary;
 
 namespace WebApplication2.Controllers
 {
@@ -45,6 +46,50 @@ namespace WebApplication2.Controllers
             if (c == null)
             { return StatusCode(StatusCodes.Status500InternalServerError); }
             return Ok(c);
+        }
+        [HttpGet("GetAll/{id}")]
+        // [ActionName("GetByUid")] // use only if U have the same function header
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<transaction>>> GetAsync(int id)
+        {
+            // logger exampe - not required but recommended
+            //this._logger.LogInformation("Get BaseUser by uid");
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+            transactionDB tdb = new transactionDB();
+            List<transaction> l = await tdb.SelectByCustomer(id);
+            if (l == null)
+            {
+                // logger exampe - not required but recommended
+                return NotFound();
+            }
+            return Ok(l);
+        }
+        [HttpGet("GetSum/{id}/{coincode}")]
+        // [ActionName("GetByUid")] // use only if U have the same function header
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<List<transaction>>> GetAsync(int id, int coincode)
+        {
+            // logger exampe - not required but recommended
+            //this._logger.LogInformation("Get BaseUser by uid");
+            if (id <= 0 && coincode <= 0)
+            {
+                return BadRequest();
+            }
+            DoubleDB d = new DoubleDB();
+            List<double> list_trades = await d.GetSUMByCoinAndCustomer(id, coincode); ;
+            if (list_trades == null)
+            {
+                // logger exampe - not required but recommended
+                return NotFound();
+            }
+            return Ok(list_trades);
         }
     }
 }

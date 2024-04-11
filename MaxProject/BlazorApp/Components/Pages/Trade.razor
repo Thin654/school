@@ -68,7 +68,7 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var customerSession = await MySession.GetAsync<customer>("customerSession");
-        if (customerSession.Success)
+        if (customerSession.Success && customerSession.Value != null)
         {
             customer = customerSession.Value;
             if(b)
@@ -114,8 +114,10 @@
     public async Task ShowAmount()
     {
         amount = 0;
-        transactionDB tdb = new transactionDB();
-        List<transaction> l = await tdb.SelectByCustomer(customer.id);
+        // List<transaction> l = null;
+        HttpClient client = new HttpClient();
+        //var jsonBU = new StringContent(JsonSerializer.Serialize(l), Encoding.UTF8, "application/json");
+        List<transaction> l = await client.GetFromJsonAsync<List<transaction>>($"http://localhost:5256/GetAll/{customer.id}");
         for (int i = 0; i < l.Count; i++)
         {
             amount = amount + l[i].amount;
