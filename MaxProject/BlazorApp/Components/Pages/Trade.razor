@@ -107,8 +107,11 @@
     {
         await ShowModalTransaction();
         if(ifsuccesstransaction)
+        {
             amount = amount + tr.amount;
-        await SendReceipt();
+            await SendReceipt();
+        }
+        
         StateHasChanged();
     }
     public async Task ShowAmount()
@@ -118,9 +121,17 @@
         HttpClient client = new HttpClient();
         //var jsonBU = new StringContent(JsonSerializer.Serialize(l), Encoding.UTF8, "application/json");
         List<transaction> l = await client.GetFromJsonAsync<List<transaction>>($"http://localhost:5256/GetAll/{customer.id}");
+        List<trade> lt = await client.GetFromJsonAsync<List<trade>>($"http://localhost:5256/GetAllTrades/{customer.id}");
         for (int i = 0; i < l.Count; i++)
         {
             amount = amount + l[i].amount;
+        }
+        for (int i = 0; i < lt.Count; i++)
+        {
+            if (lt[i].sl == true)
+                amount = amount - lt[i].rate * lt[i].amount;
+            else if (lt[i].sl == false)
+                amount = amount + lt[i].rate * lt[i].amount;
         }
         StateHasChanged();
     }
@@ -132,8 +143,19 @@
         t.date = DateTime.Now;
         t.sl = true;
         t.amount = Coin;
-        HttpClient client = new HttpClient();
-        var jsonBU = new StringContent(JsonSerializer.Serialize(t), Encoding.UTF8, "application/json");
-        var response = await client.PostAsync("http://localhost:5256/InsertTrade", jsonBU);
+        if (Coin * c.rate < amount)
+        {
+            HttpClient client = new HttpClient();
+            var jsonBU = new StringContent(JsonSerializer.Serialize(t), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("http://localhost:5256/InsertTrade", jsonBU);
+            amount = amount - t.amount * t.rate;
+        }
+        // transaction tra = new transaction();
+        // tra.amount = -(Coin * c.rate);
+        // tra.date = DateTime.Now;
+        // tra.customerid = customer.id;
+        // var jsonBU1 = new StringContent(JsonSerializer.Serialize(tra), Encoding.UTF8, "application/json");
+        // var response1 = await client.PostAsync("http://localhost:5256/InsertTrans", jsonBU);
+        StateHasChanged();
     }
 }

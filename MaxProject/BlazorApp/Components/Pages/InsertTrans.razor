@@ -1,20 +1,25 @@
 ﻿@using Models
 @inject IModalService modal
-<h3>InsertTrans</h3>
+<h3>Please insert credit card information</h3>
 <div>
     <label>identification</label>
-    <input @bind-value="t.identification" type="text" id="inputId" class="form-control m-1" placeholder="Id" required autofocus>
+    <input @bind-value="t.identification" type="number" id="inputId" class="form-control m-1" placeholder="Id" required autofocus>
     <label>credit</label>
-    <input @bind-value="t.credit" type="text" id="inputId" class="form-control m-1" placeholder="credit" required autofocus>
+    <input @bind-value="t.credit" type="number" id="inputId" class="form-control m-1" placeholder="credit" required autofocus>
     <label>ccv</label>
     <input type="text" id="inputId" class="form-control m-1" placeholder="ccv" required autofocus>
     <label>date</label>
-    <input type="text" id="inputId" class="form-control m-1" placeholder="date" required autofocus>
+    <input type="text" id="inputId" class="form-control m-1" placeholder="mm" required autofocus>
+    <input type="text" id="inputId" class="form-control m-1" placeholder="yy" required autofocus>
     <button @onclick="SubmitForm" type="submit">Submit</button>
     <button @onclick="Cancel">Cancel</button>
 </div>
 @code {
+    long credit;
+    
     transaction t = new transaction();
+    
+    
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
     private async Task SubmitForm() => await BlazoredModal.CloseAsync(ModalResult.Ok<transaction>(t));
     private async Task Cancel() => await BlazoredModal.CancelAsync();

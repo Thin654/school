@@ -1,0 +1,96 @@
+﻿@page "/Sell/{Id:int}"
+@inject NavigationManager navigationManager
+@inject IJSRuntime js
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage MySession
+@using Models
+@using DBL
+@inject IModalService modal
+@* @inject bool b *@
+@using Blazored.Modal;
+@using System.Text;
+@using System.Text.Json;
+@using ConsoleAppTest
+
+
+<label>&nbsp;sell coin</label>
+<input @bind-value="Coin" type="text" id="inputPrice" class="form-control m-1" placeholder="Price" required autofocus>
+@{
+    if (c != null && Coin != 0)
+    {
+        <label>&nbsp;@Coin @(c.namecoin) ~ @(Coin * c.rate)$</label>
+    }
+}
+<br />
+@if (c != null)
+{
+    <label>&nbsp;you have @(amount) @(c.namecoin)</label>
+}
+    
+
+<Button Color="Color.Primary" class="btn btn-lg btn-primary btn-block m-1" @onclick="@(OpenTrade)">buy</Button>
+@code {
+    //static Dictionary<string, decimal> parameters = new Dictionary<string, decimal>();
+    customer customer = new customer();
+    private coin c = null;
+    double Coin;
+    static decimal amount = 0;
+    trade t = new trade();
+    bool b = true;
+    [Parameter] public int Id { get; set; }
+    protected override async void OnParametersSet()
+    {
+        coinDB cdb = new coinDB();
+        c = await cdb.SelectByPkAsync(Id);
+        StateHasChanged();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var customerSession = await MySession.GetAsync<customer>("customerSession");
+        if (customerSession.Success && customerSession.Value != null)
+        {
+            customer = customerSession.Value;
+            if(b)
+            {
+                b = false;
+                await GetSumOfCoin();
+            }
+            StateHasChanged();
+        }
+        else
+            navigationManager.NavigateTo("login");
+    }
+    public async Task OpenTrade()
+    {
+        t.customerid = customer.id;
+        t.coinid = c.coincode;
+        t.rate = c.rate;
+        t.date = DateTime.Now;
+        t.sl = false;
+        t.amount = Coin;
+        if ((decimal)Coin <= amount)
+        {
+            HttpClient client = new HttpClient();
+            var jsonBU = new StringContent(JsonSerializer.Serialize(t), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("http://localhost:5256/InsertTrade", jsonBU);
+            amount = amount - (decimal)Coin;
+        }
+        StateHasChanged();
+    }
+    public async Task GetSumOfCoin()
+    {
+        DoubleDB d = new DoubleDB();
+        //tradeDB td = new tradeDB();
+        //List<coin> list_coins = await ShowCoins();
+        //parameters = new Dictionary<string, decimal>();
+        HttpClient client = new HttpClient();
+        //int cc = i.coincode;
+        //var jsonBU = new StringContent(JsonSerializer.Serialize(l), Encoding.UTF8, "application/json");
+        decimal long_sum = await client.GetFromJsonAsync<decimal>($"http://localhost:5256/GetSum/{customer.id}/{c.coincode}/{1}");
+        decimal short_sum = await client.GetFromJsonAsync<decimal>($"http://localhost:5256/GetSum/{customer.id}/{c.coincode}/{0}");
+        long_sum = long_sum - short_sum;
+        if (long_sum >= 0)
+            amount = long_sum;
+    }
+    }
+}

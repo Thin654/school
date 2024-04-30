@@ -69,12 +69,34 @@ namespace WebApplication2.Controllers
             }
             return Ok(l);
         }
-        [HttpGet("GetSum/{id}/{coincode}")]
+        [HttpGet("GetAllTrades/{id}")]
         // [ActionName("GetByUid")] // use only if U have the same function header
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<transaction>>> GetAsync(int id, int coincode)
+        public async Task<ActionResult<List<trade>>> GetTradesAsync(int id)
+        {
+            // logger exampe - not required but recommended
+            //this._logger.LogInformation("Get BaseUser by uid");
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+            tradeDB tdb = new tradeDB();
+            List<trade> l = await tdb.SelectByCustomer(id);
+            if (l == null)
+            {
+                // logger exampe - not required but recommended
+                return NotFound();
+            }
+            return Ok(l);
+        }
+        [HttpGet("GetSum/{id}/{coincode}/{sl}")]
+        // [ActionName("GetByUid")] // use only if U have the same function header
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<double>> GetAsync(int id, int coincode, double sl)
         {
             // logger exampe - not required but recommended
             //this._logger.LogInformation("Get BaseUser by uid");
@@ -82,14 +104,16 @@ namespace WebApplication2.Controllers
             {
                 return BadRequest();
             }
-            DoubleDB d = new DoubleDB();
-            List<double> list_trades = await d.GetSUMByCoinAndCustomer(id, coincode); ;
-            if (list_trades == null)
+            //DoubleDB d = new DoubleDB();
+            //List<double> list_trades = await d.GetSUMByCoinAndCustomer(id, coincode);
+            tradeDB tdb = new tradeDB();
+            object sum = await tdb.GetSum(id,coincode, sl);
+            if (sum is System.DBNull)
             {
                 // logger exampe - not required but recommended
-                return NotFound();
+                return Ok(0);
             }
-            return Ok(list_trades);
+            return Ok(sum);
         }
     }
 }

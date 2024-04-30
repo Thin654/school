@@ -13,7 +13,7 @@
 @using ConsoleAppTest
 
 <h1>@amount_USD</h1>
- <ul>
+<ul>
     @{
         if(parameters != null)
             foreach(var coin in parameters)
@@ -21,12 +21,12 @@
                 <li>@coin.Key @coin.Value</li>
             }
     }
-</ul>
+</ul> 
 
 @code {
-    static Dictionary<string, double> parameters = new Dictionary<string, double>();
+    static Dictionary<string, decimal> parameters = new Dictionary<string, decimal>();
     static double amount_USD = 0;
-    static bool b = true;
+    bool b = true;
     customer customer = new customer();
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -50,22 +50,43 @@
     //     //await ShowAmount();
     //     await GetSumOfCoin();
     // }
+    // public async Task ShowAmount()
+    // {
+    //     amount_USD = 0;
+    //     HttpClient client = new HttpClient();
+    //     //var jsonBU = new StringContent(JsonSerializer.Serialize(l), Encoding.UTF8, "application/json");
+    //     List<transaction> l = await client.GetFromJsonAsync<List<transaction>>($"http://localhost:5256/GetAll/{customer.id}");
+    //     for (int i = 0; i < l.Count; i++)
+    //     {
+    //         amount_USD = amount_USD + l[i].amount;
+    //     }
+    //     StateHasChanged();
+    // }
     public async Task ShowAmount()
     {
         amount_USD = 0;
+        // List<transaction> l = null;
         HttpClient client = new HttpClient();
         //var jsonBU = new StringContent(JsonSerializer.Serialize(l), Encoding.UTF8, "application/json");
         List<transaction> l = await client.GetFromJsonAsync<List<transaction>>($"http://localhost:5256/GetAll/{customer.id}");
+        List<trade> lt = await client.GetFromJsonAsync<List<trade>>($"http://localhost:5256/GetAllTrades/{customer.id}");
         for (int i = 0; i < l.Count; i++)
         {
             amount_USD = amount_USD + l[i].amount;
+        }
+        for (int i = 0; i < lt.Count; i++)
+        {
+            if (lt[i].sl == true)
+                amount_USD = amount_USD - lt[i].rate * lt[i].amount;
+            else if (lt[i].sl == false)
+                amount_USD = amount_USD + lt[i].rate * lt[i].amount;
         }
         StateHasChanged();
     }
     public async Task<List<coin>> ShowCoins()
     {
         coinDB cd = new coinDB();
-        List<coin> list_coins = await cd.SelectAllAsync("SELECT * FROM projectmax.coin;");
+        List<coin> list_coins = await cd.GetAllAsync();
         return list_coins;
     }
     public async Task GetSumOfCoin()
@@ -73,14 +94,17 @@
         DoubleDB d = new DoubleDB();
         //tradeDB td = new tradeDB();
         List<coin> list_coins = await ShowCoins();
-        parameters = new Dictionary<string, double>();
-        for (int i = 0; i < list_coins.Count; i++)
+        parameters = new Dictionary<string, decimal>();
+        foreach(coin i in list_coins)
         {
             HttpClient client = new HttpClient();
+            int cc = i.coincode;
             //var jsonBU = new StringContent(JsonSerializer.Serialize(l), Encoding.UTF8, "application/json");
-            List<double> list_trades = await client.GetFromJsonAsync<List<double>>($"http://localhost:5256/GetSum/{customer.id}/{list_coins[i].coincode}");
-            if(list_trades != null)
-                parameters.Add(list_coins[i].namecoin, list_trades[0]);
+            decimal long_sum = await client.GetFromJsonAsync<decimal>($"http://localhost:5256/GetSum/{customer.id}/{cc}/{1}");
+            decimal short_sum = await client.GetFromJsonAsync<decimal>($"http://localhost:5256/GetSum/{customer.id}/{cc}/{0}");
+            long_sum = long_sum - short_sum;
+            if (long_sum > 0)
+                parameters.Add(i.namecoin, long_sum);
         }
     }
 }

@@ -88,6 +88,24 @@ namespace DBL
         {
             return ((List<trade>)await SelectAllAsync());
         }
+        public async Task<object> GetSum(object pk, object coincode, object sl)
+        {
+            string sql = @"SELECT SUM(amount)
+                            FROM projectmax.trade
+                                Where customerid = @customerid and coinid = @coincode and sl = @sl;";
+            AddParameterToCommand("@customerid", int.Parse(pk.ToString()));
+            AddParameterToCommand("@coincode", int.Parse(coincode.ToString()));
+            AddParameterToCommand("@sl", Convert.ToInt32(sl).ToString());
+            object sum = await ExecScalarAsync(sql);
+            return sum;
+        }
+        public async Task<List<Models.trade>> SelectByCustomer(int id)
+        {
+            string sql = @"SELECT trade.* FROM trade WHERE (customerid = @id)";
+            AddParameterToCommand("@id", id);
+            List<Models.trade> list = (List<Models.trade>)await SelectAllAsync(sql);
+            return list;
+        }
         public async Task<trade> SelectByPkAsync(int id)
         {
             string sql = @"SELECT trade.* FROM trade WHERE (idtrade = @id)";

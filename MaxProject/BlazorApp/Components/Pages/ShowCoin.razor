@@ -3,6 +3,8 @@
 @using System.Threading.Tasks;
 @page "/ShowCoin/{Id:int}"
 @inject NavigationManager navigationManager
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage MySession
 @inject IJSRuntime js
 @using Models
 @using DBL
@@ -23,12 +25,18 @@ else
                     <div class="fs-5 mb-5">
                         <span class="text">@c.rate</span> <span><button class="btn btn-primary" @onclick="@(async () => await Increment())">Refresh rate</button></span>
                         <a href="/Trade/@(c.coincode)">Buy coin</a>
+                        @if (iflogged)
+                        {
+                            <a href="/Sell/@(c.coincode)">&nbsp;Sell coin</a>
+                        }
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
+    
+        
+    
 }
 @code {
     private coin c = null;
@@ -36,9 +44,12 @@ else
     string ResultStr = "...";
     public string str { get; set; }
     string uri = "";
+    bool iflogged = false;
+    customer customer = new customer();
     coinDB cdb = new coinDB();
     protected override async Task OnParametersSetAsync()
     {
+        iflogged = false;
         c = await cdb.SelectByPkAsync(Id);
         uri = $"https://api.coingecko.com/api/v3/simple/price?ids=" + c.namecoin + "&vs_currencies=usd";
         try
@@ -56,6 +67,38 @@ else
             ResultStr = ex.ToString();
         }
         //StateHasChanged();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var customerSession = await MySession.GetAsync<customer>("customerSession");
+        if (customerSession.Success && customerSession.Value != null)
+        {
+            customer = customerSession.Value;
+            if (await GetSumOfCoin())
+            {
+                iflogged = true;
+            }
+            else
+            {
+                iflogged = false;
+            }
+            StateHasChanged();
+        }
+    }
+    public async Task<bool> GetSumOfCoin()
+    {
+        //tradeDB td = new tradeDB();
+        //List<coin> list_coins = await ShowCoins();
+        //parameters = new Dictionary<string, decimal>();
+        HttpClient client = new HttpClient();
+        //int cc = i.coincode;
+        //var jsonBU = new StringContent(JsonSerializer.Serialize(l), Encoding.UTF8, "application/json");
+        decimal long_sum = await client.GetFromJsonAsync<decimal>($"http://localhost:5256/GetSum/{customer.id}/{c.coincode}/{1}");
+        decimal short_sum = await client.GetFromJsonAsync<decimal>($"http://localhost:5256/GetSum/{customer.id}/{c.coincode}/{0}");
+        long_sum = long_sum - short_sum;
+        if (long_sum > 0)
+            return true;
+        return false;
     }
     static async Task<double> ExtractNumberAsync(string input)
     {
@@ -78,4 +121,5 @@ else
         await OnParametersSetAsync();
         StateHasChanged();
     }
+    
 }
