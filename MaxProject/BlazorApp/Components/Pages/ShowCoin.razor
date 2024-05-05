@@ -66,11 +66,13 @@ else
         {
             ResultStr = ex.ToString();
         }
-        //StateHasChanged();
+        StateHasChanged();
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var customerSession = await MySession.GetAsync<customer>("customerSession");
+        if (firstRender)
+            StateHasChanged();
         if (customerSession.Success && customerSession.Value != null)
         {
             customer = customerSession.Value;

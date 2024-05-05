@@ -1,0 +1,65 @@
+﻿@page "/Login"
+@using System.Text.Json;
+@inject HttpClient httpClient
+@inject NavigationManager navigateMgr
+@using Models;
+<h3>Login</h3>
+<div class="card">
+    <div class="card-header">Login Account</div>
+    <div class="card-body">
+        <div class="form-group mt-2">
+            <label>Email</label>
+            <input type="text" class="form-control" @bind-value="Email" />
+        </div>
+        <div class="form-group mt-2">
+            <label>Password</label>
+            <input type="password" class="form-control" @bind-value="password" />
+        </div>
+    </div>
+    @* <div class="card-footer">
+        <button class="btn btn-primary" @onclick="HandleLogin">Login</button>
+    </div> *@
+    <div class="card-header"><p><em>@ResultStr</em></p></div>
+
+</div>
+
+@code {
+    public string Email { get; set; }
+    public string password { get; set; }
+    public customer customer { get; set; }
+    public string ResultStr { get; set; }
+
+    // private async Task HandleLogin()
+    // {
+    //     await Task.Delay(500);
+
+    //     try
+    //     {
+    //         var apiResponse = await httpClient.GetFromJsonAsync<customer>($"http://localhost:5256/Login/{Email}/{password}");
+    //         if (apiResponse != null)
+    //         {
+    //             customer = apiResponse;
+    //             //customer = await apiResponse.Content.ReadFromJsonAsync<Customer>();
+    //             ResultStr = "OK";
+    //             if (customer.id > 0)
+    //             {
+    //                 string jsonString = JsonSerializer.Serialize(customer);
+    //                 await SecureStorage.Default.SetAsync("ID", customer.id.ToString());
+    //                 await SecureStorage.Default.SetAsync("customerDATA", jsonString);
+    //                 //navigateMgr.NavigateTo("/showAll", replace: true);
+    //                 navigateMgr.NavigateTo("/");
+    //             }
+    //             else
+    //             {
+
+    //                 await Application.Current.MainPage.DisplayAlert("Info", ResultStr, "Ok");
+    //             }
+    //         }
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         ResultStr = ex.Message;
+    //     }
+        
+    // }
+}
