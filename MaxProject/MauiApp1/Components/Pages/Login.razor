@@ -29,37 +29,37 @@
     public customer customer { get; set; }
     public string ResultStr { get; set; }
 
-    // private async Task HandleLogin()
-    // {
-    //     await Task.Delay(500);
+    private async Task HandleLogin()
+    {
+        await Task.Delay(500);
 
-    //     try
-    //     {
-    //         var apiResponse = await httpClient.GetFromJsonAsync<customer>($"http://localhost:5256/Login/{Email}/{password}");
-    //         if (apiResponse != null)
-    //         {
-    //             customer = apiResponse;
-    //             //customer = await apiResponse.Content.ReadFromJsonAsync<Customer>();
-    //             ResultStr = "OK";
-    //             if (customer.id > 0)
-    //             {
-    //                 string jsonString = JsonSerializer.Serialize(customer);
-    //                 await SecureStorage.Default.SetAsync("ID", customer.id.ToString());
-    //                 await SecureStorage.Default.SetAsync("customerDATA", jsonString);
-    //                 //navigateMgr.NavigateTo("/showAll", replace: true);
-    //                 navigateMgr.NavigateTo("/");
-    //             }
-    //             else
-    //             {
+        try
+        {
+            var apiResponse = await httpClient.GetFromJsonAsync<customer>($"http://localhost:5256/Login/{Email}/{password}");
+            if (apiResponse != null)
+            {
+                customer = apiResponse;
+                //customer = await apiResponse.Content.ReadFromJsonAsync<Customer>();
+                ResultStr = "OK";
+                if (customer.id > 0)
+                {
+                    string jsonString = JsonSerializer.Serialize(customer);
+                    await SecureStorage.Default.SetAsync("ID", customer.id.ToString());
+                    await SecureStorage.Default.SetAsync("customerDATA", jsonString);
+                    //navigateMgr.NavigateTo("/showAll", replace: true);
+                    navigateMgr.NavigateTo("/");
+                }
+                else
+                {
 
-    //                 await Application.Current.MainPage.DisplayAlert("Info", ResultStr, "Ok");
-    //             }
-    //         }
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         ResultStr = ex.Message;
-    //     }
+                    await Application.Current.MainPage.DisplayAlert("Info", ResultStr, "Ok");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ResultStr = ex.Message;
+        }
         
-    // }
+    }
 }
