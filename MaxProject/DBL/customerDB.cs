@@ -110,6 +110,7 @@ namespace DBL
             Dictionary<string, object> filterValues = new Dictionary<string, object>();
             fillValues.Add("name", customer.name);
             fillValues.Add("email", customer.email);
+            fillValues.Add("password", customer.password);
             filterValues.Add("idcustomer", customer.id.ToString());
             return await base.UpdateAsync(fillValues, filterValues);
         }

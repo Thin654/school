@@ -16,9 +16,9 @@
             <input type="password" class="form-control" @bind-value="password" />
         </div>
     </div>
-    @* <div class="card-footer">
+    <div class="card-footer">
         <button class="btn btn-primary" @onclick="HandleLogin">Login</button>
-    </div> *@
+    </div>
     <div class="card-header"><p><em>@ResultStr</em></p></div>
 
 </div>
@@ -51,7 +51,6 @@
                 }
                 else
                 {
-
                     await Application.Current.MainPage.DisplayAlert("Info", ResultStr, "Ok");
                 }
             }

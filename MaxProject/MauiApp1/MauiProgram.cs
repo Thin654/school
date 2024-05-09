@@ -15,9 +15,10 @@ namespace MauiApp1
                 });
 
             builder.Services.AddMauiBlazorWebView();
+            builder.Services.AddScoped(sp => new HttpClient { });
 
 #if DEBUG
-    		builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();
 #endif
 

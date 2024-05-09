@@ -60,6 +60,18 @@ namespace WebApplication2.Controllers
                 }
                 return BadRequest("Invalid password");
         }
+        [HttpPut("Update")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<int>> Put([FromBody] customer customer)
+        {
+            if (customer == null || customer.id <= 0) { return BadRequest(); }
+            customerDB customerDB = new customerDB();
+            int il = await customerDB.UpdateAsync(customer);
+            if (il == 0) { return StatusCode(StatusCodes.Status500InternalServerError); }
+            return Ok(il);
+        }
     }
 }
 

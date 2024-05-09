@@ -1,0 +1,107 @@
+﻿@page "/profile"
+@inject NavigationManager navigateMgr
+@inject IJSRuntime js
+@using Models
+@using DBL
+@using System.Text;
+@using System.Text.Json;
+<h3>Profile</h3>
+<div>
+    <h3>name: @customer.name</h3>
+    <Button Color="Color.Primary" class="btn btn-lg btn-primary btn-block m-1" @onclick="@(ShowInput)">change</Button>
+</div>
+<div>
+    @if(ChangeName == true)
+    {
+        <input @bind-value="name" type="text" id="inputPrice" class="form-control m-1" placeholder="Price" required autofocus>
+        <Button Color="Color.Primary" class="btn btn-lg btn-primary btn-block m-1" @onclick="@(UpdateName)">change</Button>
+    }
+</div>
+<div>
+    <Button Color="Color.Primary" class="btn btn-lg btn-primary btn-block m-1" @onclick="@(ShowInputPassword)">change password</Button>
+</div>
+<div>
+    @if(ChangePassword == true)
+    {
+        <label>old password:</label>
+        <input @bind-value="oldPassword" type="password" id="inputPrice" class="form-control m-1" placeholder="Price" required autofocus>
+        <label>new password</label>
+        <input @bind-value="newPassword" type="password" id="inputPrice" class="form-control m-1" placeholder="Price" required autofocus>
+        <Button Color="Color.Primary" class="btn btn-lg btn-primary btn-block m-1" @onclick="@(UpdatePassword)">change password</Button>
+    }
+</div>
+@* <div>
+    <h3>Change password</h3>
+    <a href="/Sell/@(c.coincode)">&nbsp;Sell coin</a>
+</div> *@
+
+@code {
+    string name = "";
+    bool ChangeName = false;
+    bool ChangePassword = false;
+    string ResultStr = " Loading... ";
+    string oldPassword = "";
+    string newPassword = "";
+    customer customer = new customer();
+    protected override async Task OnInitializedAsync()
+    {
+        // UID = await SecureStorage.Default.GetAsync("ID");
+        // if (UID == null)
+        // {
+        //     UID = "-1";
+        // }
+
+        string jsonString = await SecureStorage.Default.GetAsync("customerDATA");
+        if (jsonString == null)
+        {
+            customer = new customer();
+        }
+        else
+        {
+            customer = JsonSerializer.Deserialize<customer>(jsonString);
+        }
+
+        if (customer.id <= 0)
+        {
+            navigateMgr.NavigateTo("/login", replace: true);
+        }
+    }
+    public async Task ShowInput()
+    {
+        ChangeName = !ChangeName;
+        name = customer.name;
+        StateHasChanged();
+    }
+    public async Task ShowInputPassword()
+    {
+        ChangePassword = !ChangePassword;
+        StateHasChanged();
+    }
+    public async Task UpdatePassword()
+    {
+        if(oldPassword == customer.password && newPassword != "")
+        {
+            customer.password = newPassword;
+            HttpClient client = new HttpClient();
+            var apiResponse = await client.PutAsJsonAsync<customer>("http://localhost:5256/Update", customer);
+            string jsonString = JsonSerializer.Serialize(customer);
+            await SecureStorage.Default.SetAsync("customerDATA", jsonString);
+            StateHasChanged();
+            await Task.Delay(500);
+            SecureStorage.Default.Remove("customerDATA");
+            navigateMgr.NavigateTo("/");
+        }
+    }
+    public async Task UpdateName()
+    {
+        if(name != "" && name != customer.name)
+        {
+            customer.name = name;
+            HttpClient client = new HttpClient();
+            var apiResponse = await client.PutAsJsonAsync<customer>("http://localhost:5256/Update", customer);
+            string jsonString = JsonSerializer.Serialize(customer);
+            await SecureStorage.Default.SetAsync("customerDATA", jsonString);
+            StateHasChanged();
+        }
+    }
+}
