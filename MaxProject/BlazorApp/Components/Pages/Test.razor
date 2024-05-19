@@ -1,18 +1,81 @@
-﻿@page "/test"
-[counter.razor]
+﻿@page "/MyCustomers"
+@using Models
+@using DBL
+@inject IJSRuntime js
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage MySession
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
-<h1>Counter</h1>
 
-<p>Current count: @currentCount</p>
 
-<button class="btn btn-primary" @onclick="@(async () => await Increment())">Click me</button>
+
+<div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+    <span class="h1">My Customers</span>
+</div>
+
+@if (list == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table w-100">
+        <thead>
+            <tr>
+                <th>Customers Email</th>
+                <th>Delete</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (customer item in list)
+            {
+                <tr>
+                    <td>@item.email</td>
+                    <td>
+                        <button class="btn btn-danger" @onclick="@(() => Delete(@item.id))">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 @code {
-    private int currentCount = 0;
-
-    async Task Increment()
+    List<customer> list;
+    private customer c = null;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await Task.Delay(1000);
-        currentCount++;
+        var CustomerSession = await MySession.GetAsync<customer>("customerSession");
+        if (CustomerSession.Success)
+        {
+
+            c = CustomerSession.Value;
+            if (c.email != "admin" || c.password != "1234")
+            {
+                navigationManager.NavigateTo("login");
+            }
+            StateHasChanged();
+        }
+        else
+            navigationManager.NavigateTo("login");
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        customerDB accountDB = new customerDB();
+        list = (List<customer>)await accountDB.GetAllAsync();
+    }
+    async Task Delete(int id)
+    {
+        customerDB accountDB = new customerDB();
+        customer account = await accountDB.SelectByPkAsync(id);
+        // if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {account.name}'s Record?"))
+        // {
+        //     await accountDB.DeleteAsync(account);
+        //     await OnInitializedAsync();
+        // }
+        await accountDB.DeleteAsync(account);
+        await OnInitializedAsync();
     }
 }
