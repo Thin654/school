@@ -8,7 +8,7 @@ namespace ConsoleAppTest
 {
     public static class EmailService
     {
-        const string secretKey = "";
+        const string secretKey = "60052090e78d500ef546766c060c4661";
         const string APIKey = "c80b37feecdd39cd6db288221f79de5a";
         const string apiUrl = "https://api.mailjet.com/v3.1/send";
         public static async Task<bool> SendEmailAsync(string recipientEmail, string subject, string body)

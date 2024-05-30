@@ -12,7 +12,7 @@
 @using System.Text.Json;
 @using ConsoleAppTest
 
-<h1>@amount_USD</h1>
+<h1>@((double)amount_USD)</h1>
 <ul>
     @{
         if(parameters != null)
@@ -68,18 +68,18 @@
         // List<transaction> l = null;
         HttpClient client = new HttpClient();
         //var jsonBU = new StringContent(JsonSerializer.Serialize(l), Encoding.UTF8, "application/json");
-        List<transaction> l = await client.GetFromJsonAsync<List<transaction>>($"http://localhost:5256/GetAll/{customer.id}");
-        List<trade> lt = await client.GetFromJsonAsync<List<trade>>($"http://localhost:5256/GetAllTrades/{customer.id}");
-        for (int i = 0; i < l.Count; i++)
+        List<transaction> transactionList = await client.GetFromJsonAsync<List<transaction>>($"http://localhost:5256/GetAll/{customer.id}");
+        List<trade> tradeList = await client.GetFromJsonAsync<List<trade>>($"http://localhost:5256/GetAllTrades/{customer.id}");
+        for (int i = 0; i < transactionList.Count; i++)
         {
-            amount_USD = amount_USD + l[i].amount;
+            amount_USD = amount_USD + transactionList[i].amount;
         }
-        for (int i = 0; i < lt.Count; i++)
+        for (int i = 0; i < tradeList.Count; i++)
         {
-            if (lt[i].sl == true)
-                amount_USD = amount_USD - lt[i].rate * lt[i].amount;
-            else if (lt[i].sl == false)
-                amount_USD = amount_USD + lt[i].rate * lt[i].amount;
+            if (tradeList[i].sl == true)
+                amount_USD = amount_USD - tradeList[i].rate * tradeList[i].amount;
+            else if (tradeList[i].sl == false)
+                amount_USD = amount_USD + tradeList[i].rate * tradeList[i].amount;
         }
         StateHasChanged();
     }

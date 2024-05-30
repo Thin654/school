@@ -19,7 +19,7 @@ namespace DBL
             transaction c = new transaction();
             c.transactionid = int.Parse(row[0].ToString());
             c.customerid = int.Parse(row[1].ToString());
-            c.credit = int.Parse(row[2].ToString());
+            c.credit = long.Parse(row[2].ToString());
             c.identification = int.Parse(row[3].ToString());
             c.date = DateTime.Parse(row[4].ToString());
             c.amount = double.Parse(row[5].ToString());
@@ -30,7 +30,7 @@ namespace DBL
             transaction c = new transaction();
             c.transactionid = int.Parse(row[0].ToString());
             c.customerid = int.Parse(row[1].ToString());
-            c.credit = int.Parse(row[2].ToString());
+            c.credit = long.Parse(row[2].ToString());
             c.identification = int.Parse(row[3].ToString());
             c.date = DateTime.Parse(row[4].ToString());
             c.amount = double.Parse(row[5].ToString());

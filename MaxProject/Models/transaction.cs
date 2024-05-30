@@ -10,7 +10,7 @@ namespace Models
     {
         public int transactionid { get; set; }
         public int customerid { get; set; }
-        public int credit { get; set; }
+        public long credit { get; set; }
         public int identification { get; set; }
         public DateTime date { get; set; }
         public double amount{ get; set; }
