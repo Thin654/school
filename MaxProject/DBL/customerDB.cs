@@ -20,6 +20,7 @@ namespace DBL
             c.name = row[1].ToString();
             c.email = row[2].ToString();
             c.password = row[3].ToString();
+            c.admin = Convert.ToBoolean(row[4]);
             return c;
         }
         protected override async Task<customer> CreateModelAsync(object[] row)
@@ -28,7 +29,8 @@ namespace DBL
             c.id = int.Parse(row[0].ToString());
             c.name = row[1].ToString();
             c.email = row[2].ToString();
-            c.password = row[4].ToString();
+            c.password = row[3].ToString();
+            c.admin = Convert.ToBoolean(row[4]);
             return c;
         }
         protected override List<customer> CreateListModel(List<object[]> rows)
@@ -111,6 +113,7 @@ namespace DBL
             fillValues.Add("name", customer.name);
             fillValues.Add("email", customer.email);
             fillValues.Add("password", customer.password);
+            fillValues.Add("admin", customer.admin);
             filterValues.Add("idcustomer", customer.id.ToString());
             return await base.UpdateAsync(fillValues, filterValues);
         }
@@ -120,7 +123,8 @@ namespace DBL
             {
                 { "name", customer.name },
                 { "email", customer.email },
-                { "password", customer.password }
+                { "password", customer.password },
+                { "admin", Convert.ToInt32(customer.admin).ToString() }
             };
             return (customer)await base.InsertGetObjAsync(fillValues);
         }
@@ -137,6 +141,6 @@ namespace DBL
             else
                 return null;
         }
-
+        
     }
 }

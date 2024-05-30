@@ -24,7 +24,7 @@
     async Task  registration()
     {
         customerDB cd = new customerDB();
-        customer c = new customer(name, email, password);
+        customer c = new customer(name, email, password, false);
         if(name != "" && email != "" && password != "")
         {
             customer c1 = await cd.InsertGetObjAsync(c);

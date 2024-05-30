@@ -52,7 +52,7 @@ else
         {
 
             c = CustomerSession.Value;
-            if (c.email != "admin" || c.password != "1234")
+            if (c.admin == false)
             {
                 navigationManager.NavigateTo("login");
             }
